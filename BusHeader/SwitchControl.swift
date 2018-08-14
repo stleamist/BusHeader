@@ -68,9 +68,9 @@ extension SwitchControl {
 
 public class SwitchControl: UIControl {
     var contentView = UIView()
-    var arrowView = UIView()
-    var leftLabelContainerView = UIView()
-    var rightLabelContainerView = UIView()
+    var centerContainerView = UIView()
+    var leftContainerView = UIView()
+    var rightContainerView = UIView()
     var leftLabel = UILabel()
     var rightLabel = UILabel()
     
@@ -103,32 +103,32 @@ public class SwitchControl: UIControl {
     
     func setupSubviews() {
         self.addSubview(contentView)
-        contentView.addSubview(arrowView)
-        contentView.addSubview(leftLabelContainerView)
-        contentView.addSubview(rightLabelContainerView)
-        leftLabelContainerView.addSubview(leftLabel)
-        rightLabelContainerView.addSubview(rightLabel)
+        contentView.addSubview(centerContainerView)
+        contentView.addSubview(leftContainerView)
+        contentView.addSubview(rightContainerView)
+        leftContainerView.addSubview(leftLabel)
+        rightContainerView.addSubview(rightLabel)
     }
     
     func setupConstraints() {
-        arrowView.activateConstraintsToCenterInSuperview()
-        arrowView.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
-        arrowView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        centerContainerView.activateConstraintsToCenterInSuperview()
+        centerContainerView.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        centerContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
-        leftLabelContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
-        leftLabelContainerView.trailingAnchor.constraint(equalTo: arrowView.leadingAnchor).isActive = true
+        leftContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
+        leftContainerView.trailingAnchor.constraint(equalTo: centerContainerView.leadingAnchor).isActive = true
         
-        rightLabelContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
-        rightLabelContainerView.leadingAnchor.constraint(equalTo: arrowView.trailingAnchor).isActive = true
+        rightContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
+        rightContainerView.leadingAnchor.constraint(equalTo: centerContainerView.trailingAnchor).isActive = true
         
         leftLabel.activateConstraintsToCenterInSuperview()
         rightLabel.activateConstraintsToCenterInSuperview()
         
         //
-        arrowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        arrowView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        centerContainerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        centerContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        leftLabelContainerView.widthAnchor.constraint(equalTo: rightLabelContainerView.widthAnchor).isActive = true
+        leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
         contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         
@@ -136,11 +136,11 @@ public class SwitchControl: UIControl {
         
         regularModeConstraints = contentView.constraintsToFitIntoSuperview(attributes: [.leading, .trailing])
         
-        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: arrowView.leadingAnchor)
+        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: centerContainerView.leadingAnchor)
         compactLeftModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         
         compactRightModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: arrowView.trailingAnchor)
+        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: centerContainerView.trailingAnchor)
         
         //
         updateConstraintsForModeChange()
@@ -186,7 +186,7 @@ public class SwitchControl: UIControl {
     
     func setupAppearance() {
         self.backgroundColor = .gray
-        arrowView.backgroundColor = .red
+        centerContainerView.backgroundColor = .red
         
         leftLabel.text = "여의도"
         rightLabel.text = "장지공영차고지"
