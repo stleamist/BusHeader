@@ -58,6 +58,18 @@ extension UIControl.State: Hashable {
 
 @IBDesignable public class SwitchControl: UIControl {
     
+    // MARK: Nested Enums
+    
+    public enum SelectionMode {
+        case left
+        case right
+    }
+    
+    public enum SizeMode {
+        case compact
+        case regular
+    }
+    
     
     // MARK: View Properties
     
@@ -67,8 +79,8 @@ extension UIControl.State: Hashable {
     var leftContainerView = UIView()
     var rightContainerView = UIView()
     
-    var centerBelowImageView = UIImageView()
-    var centerAboveImageView = UIImageView()
+    var normalArrowImageView = UIImageView()
+    var highlightedArrowImageView = UIImageView()
     
     var labels: [SelectionMode: UILabel] {
         return [.left: leftLabel, .right: rightLabel]
@@ -78,6 +90,7 @@ extension UIControl.State: Hashable {
             // .removeFromSuperview()를 호출할 때 관련된 constraints도 함께 제거된다.
             oldValue.removeFromSuperview()
             setupLabel(leftLabel, into: leftContainerView)
+            updateLabelStates(animated: false)
             setLabelColors()
         }
     }
@@ -85,6 +98,7 @@ extension UIControl.State: Hashable {
         didSet {
             oldValue.removeFromSuperview()
             setupLabel(rightLabel, into: rightContainerView)
+            updateLabelStates(animated: false)
             setLabelColors()
         }
     }
@@ -150,6 +164,14 @@ extension UIControl.State: Hashable {
     }
     
     
+    // MARK: Constants
+    
+    let kAnimationOption: UIView.AnimationOptions = .curveEaseInOut
+    let kChangeModeDuration: TimeInterval = 0.3
+    let kBackgroundHighlightDuration: TimeInterval = 0.1
+    
+    
+    
     // MARK: Bool Properties
     
     public override var isHighlighted: Bool {
@@ -171,11 +193,16 @@ extension UIControl.State: Hashable {
         super.init(coder: aDecoder)
         setup()
     }
+    convenience init(leftLabelText: String, rightLabelText: String) {
+        self.init()
+        setLabelTexts(left: leftLabelText, right: rightLabelText)
+    }
     
     
     // MARK: Setup Methods
     
     func setup() {
+        // TODO: 호출 순서에 맞게 정리하기
         setupSubviews()
         setupConstraints()
         setupLabels()
@@ -189,8 +216,8 @@ extension UIControl.State: Hashable {
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
-        centerContainerView.addSubview(centerBelowImageView)
-        centerContainerView.addSubview(centerAboveImageView)
+        centerContainerView.addSubview(normalArrowImageView)
+        centerContainerView.addSubview(highlightedArrowImageView)
     }
     
     func setupConstraints() {
@@ -201,8 +228,8 @@ extension UIControl.State: Hashable {
             centerContainerView,
             leftContainerView,
             rightContainerView,
-            centerBelowImageView,
-            centerAboveImageView
+            normalArrowImageView,
+            highlightedArrowImageView
         ].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
@@ -225,8 +252,8 @@ extension UIControl.State: Hashable {
         
         leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
-        centerBelowImageView.activateConstraintsToCenterInSuperview()
-        centerAboveImageView.activateConstraintsToCenterInSuperview()
+        normalArrowImageView.activateConstraintsToCenterInSuperview()
+        highlightedArrowImageView.activateConstraintsToCenterInSuperview()
         
         
         // Make and Store Constraints for Modes
@@ -263,20 +290,16 @@ extension UIControl.State: Hashable {
     }
     
     func setupCenterImageViews() {
+        assert(self.selectionMode == .right, "Initial selection mode is not '.right'. Arrow can be shown in the opposite direction.")
         let topRightwardsArrowImage = UIImage(named: "Top Rightwards Arrow")
         let bottomLeftwardsArrowImage = UIImage(named: "Bottom Leftwards Arrow")
-        self.centerAboveImageView.image = topRightwardsArrowImage
-        self.centerBelowImageView.image = bottomLeftwardsArrowImage
-        self.centerAboveImageView.sizeToFit()
-        self.centerBelowImageView.sizeToFit()
+        self.highlightedArrowImageView.image = topRightwardsArrowImage
+        self.normalArrowImageView.image = bottomLeftwardsArrowImage
+        self.highlightedArrowImageView.sizeToFit()
+        self.normalArrowImageView.sizeToFit()
     }
     
     func setupAppearance() {
-        // TODO: 초기 텍스트 지우기
-        
-        leftLabel.text = "Left"
-        rightLabel.text = "Right"
-        
         self.clipsToBounds = true
         updateBackgroundColor(animated: false)
         updateLabelStates(animated: false)
@@ -284,6 +307,30 @@ extension UIControl.State: Hashable {
         setLabelColors()
         setArrowColors()
         setCornerRadius()
+    }
+    
+    
+    // MARK: Property Setting Methods
+    
+    func setLabelTexts(left leftLabelText: String, right rightLabelText: String) {
+        self.leftLabel.text = leftLabelText
+        self.rightLabel.text = rightLabelText
+    }
+    
+    func setLabelColors() {
+        self.labels.forEach({
+            $1.textColor = labelColors[.normal]
+            $1.highlightedTextColor = labelColors[.highlighted]
+        })
+    }
+    
+    func setArrowColors() {
+        self.highlightedArrowImageView.tintColor = arrowColors[.highlighted]
+        self.normalArrowImageView.tintColor = arrowColors[.normal]
+    }
+    
+    func setCornerRadius() {
+        self.layer.cornerRadius = self.cornerRadius
     }
     
     
@@ -308,7 +355,7 @@ extension UIControl.State: Hashable {
         }
         
         if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: handler)
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
         } else {
             handler()
         }
@@ -320,7 +367,7 @@ extension UIControl.State: Hashable {
         }
         
         if animated {
-            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: handler)
+            UIView.animate(withDuration: kBackgroundHighlightDuration, delay: 0, options: kAnimationOption, animations: handler)
         } else {
             handler()
         }
@@ -335,8 +382,8 @@ extension UIControl.State: Hashable {
         }
         
         if animated {
-            UIView.transition(with: leftLabel, duration: 0.3, options: .transitionCrossDissolve, animations: leftLabelHandler)
-            UIView.transition(with: rightLabel, duration: 0.3, options: .transitionCrossDissolve, animations: rightLabelHandler)
+            UIView.transition(with: leftLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: leftLabelHandler)
+            UIView.transition(with: rightLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: rightLabelHandler)
         } else {
             leftLabelHandler()
             rightLabelHandler()
@@ -351,26 +398,10 @@ extension UIControl.State: Hashable {
         }
         
         if animated {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: handler)
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
         } else {
             handler()
         }
-    }
-    
-    func setLabelColors() {
-        self.labels.forEach({
-            $1.textColor = labelColors[.normal]
-            $1.highlightedTextColor = labelColors[.highlighted]
-        })
-    }
-    
-    func setArrowColors() {
-        self.centerAboveImageView.tintColor = arrowColors[.highlighted]
-        self.centerBelowImageView.tintColor = arrowColors[.normal]
-    }
-    
-    func setCornerRadius() {
-        self.layer.cornerRadius = self.cornerRadius
     }
     
     
@@ -384,17 +415,5 @@ extension UIControl.State: Hashable {
         case .right:
             self.selectionMode = .left
         }
-    }
-}
-
-extension SwitchControl {
-    public enum SelectionMode {
-        case left
-        case right
-    }
-    
-    public enum SizeMode {
-        case compact
-        case regular
     }
 }
