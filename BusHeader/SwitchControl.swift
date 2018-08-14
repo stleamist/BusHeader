@@ -239,8 +239,7 @@ extension UIControl.State: Hashable {
         contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         
         centerContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
-        centerContainerView.activateConstraintsToCenterInSuperview()
-        centerContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        centerContainerView.activateConstraintsToCenterInSuperview(attributes: [.centerX])
         centerContainerView.widthAnchor.constraint(equalTo: centerContainerView.heightAnchor).isActive = true
         
         leftContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
