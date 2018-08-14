@@ -5,19 +5,24 @@ class ViewController: UIViewController {
     @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            control.sizeMode = .regular
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.control.sizeMode = .regular
+                self.control.layoutIfNeeded()
+            })
+            
         case 1:
-            control.sizeMode = .compact
-            control.selectionMode = .left
-        case 2:
-            control.sizeMode = .compact
-            control.selectionMode = .right
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.control.sizeMode = .compact
+                self.control.layoutIfNeeded()
+            })
         default:
             ()
         }
-        UIView.animate(withDuration: 1) {
-            self.control.layoutIfNeeded()
-        }
+    }
+    @IBAction func updateDidTap(_ sender: UIButton) {
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
+            self.control.leftLabel.isHighlighted = true
+        })
     }
     
     override func viewDidLoad() {

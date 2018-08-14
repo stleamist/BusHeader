@@ -17,34 +17,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hun-1d-LWV" customClass="SwitchControl" customModule="BusHeader" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="311.5" width="375" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Pgu-pw-uAu"/>
-                                </constraints>
-                            </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="w2A-Un-dpJ">
                                 <rect key="frame" x="16" y="430.5" width="343" height="29"/>
                                 <segments>
                                     <segment title="Regular"/>
-                                    <segment title="Compact Left"/>
-                                    <segment title="Compact Right"/>
+                                    <segment title="Compact"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="8f4-RG-ViN"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rcl-6C-Jpu">
+                                <rect key="frame" x="162" y="207.5" width="51" height="30"/>
+                                <state key="normal" title="Update"/>
+                                <connections>
+                                    <action selector="updateDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8kR-x2-1bo"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lE0-XA-z8T">
+                                <rect key="frame" x="0.0" y="295.5" width="375" height="76"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hun-1d-LWV" customClass="SwitchControl" customModule="BusHeader" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="16" width="343" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Pgu-pw-uAu"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.16078431369999999" green="0.80000000000000004" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Hun-1d-LWV" firstAttribute="leading" secondItem="lE0-XA-z8T" secondAttribute="leading" constant="16" id="GAs-Fk-wVY"/>
+                                    <constraint firstItem="Hun-1d-LWV" firstAttribute="top" secondItem="lE0-XA-z8T" secondAttribute="top" constant="16" id="gYD-xI-HMQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hun-1d-LWV" secondAttribute="trailing" constant="16" id="uVJ-M6-f6n"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hun-1d-LWV" secondAttribute="bottom" constant="16" id="xz8-uj-DOp"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="w2A-Un-dpJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6gH-vf-KCx"/>
-                            <constraint firstItem="Hun-1d-LWV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="AuM-zl-OUc"/>
                             <constraint firstItem="w2A-Un-dpJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="4/3" id="DdW-EO-QsK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="w2A-Un-dpJ" secondAttribute="trailing" constant="16" id="FVq-yh-bfy"/>
-                            <constraint firstItem="Hun-1d-LWV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UsJ-5o-S2P"/>
-                            <constraint firstItem="Hun-1d-LWV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cEa-Rf-CZc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hun-1d-LWV" secondAttribute="trailing" id="yzC-LY-z1n"/>
+                            <constraint firstItem="Rcl-6C-Jpu" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="2/3" id="Wpf-cU-Hnd"/>
+                            <constraint firstItem="Rcl-6C-Jpu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XuW-Km-Y9y"/>
+                            <constraint firstItem="lE0-XA-z8T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pfe-3u-NJc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lE0-XA-z8T" secondAttribute="trailing" id="sVr-AY-37N"/>
+                            <constraint firstItem="lE0-XA-z8T" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="wmV-Xd-zHV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

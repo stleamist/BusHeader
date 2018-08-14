@@ -56,7 +56,7 @@ extension UIControl.State: Hashable {
     }
 }
 
-public class SwitchControl: UIControl {
+@IBDesignable public class SwitchControl: UIControl {
     
     
     // MARK: View Properties
@@ -67,7 +67,8 @@ public class SwitchControl: UIControl {
     var leftContainerView = UIView()
     var rightContainerView = UIView()
     
-    var centerButton = UIButton()
+    var centerBelowImageView = UIImageView()
+    var centerAboveImageView = UIImageView()
     var leftLabel = UILabel()
     var rightLabel = UILabel()
     
@@ -88,8 +89,11 @@ public class SwitchControl: UIControl {
     }
     public var selectionMode: SelectionMode = .left {
         didSet {
+            if (oldValue != selectionMode) {
+                sendActions(for: .valueChanged)
+            }
             updateConstraintsForMode()
-            updateColorsForMode()
+            updateLabelStates()
         }
     }
     
@@ -97,19 +101,31 @@ public class SwitchControl: UIControl {
     // MARK: Appearance Properties
     
     var backgroundColors: [UIControl.State: UIColor] = [
-        .normal: .lightGray,
-        .highlighted: .gray
-    ]
-    var titleColors: [UIControl.State: UIColor] = [
-        .normal: .blue,
-        .selected: .red
-    ]
+        .normal: UIColor(white: 0, alpha: 0.1),
+        .highlighted: UIColor(white: 0, alpha: 0.2)
+        ] {
+        didSet {
+            updateBackgroundColor()
+        }
+    }
+    var labelColors: [UIControl.State: UIColor] = [
+        .normal: UIColor(white: 1, alpha: 0.25),
+        .highlighted: .white
+        ] {
+        didSet {
+            updateLabelColors()
+        }
+    }
     var arrowColors: [UIControl.State: UIColor] = [
-        .normal: .red,
-        .selected: .blue
-    ]
+        .normal: UIColor(white: 1, alpha: 0.25),
+        .highlighted: .white
+        ] {
+        didSet {
+            updateArrowColors()
+        }
+    }
     
-    var cornerRadius: CGFloat = 8 {
+    @IBInspectable var cornerRadius: CGFloat = 12 {
         didSet {
             updateCornerRadius()
         }
@@ -120,7 +136,7 @@ public class SwitchControl: UIControl {
     
     public override var isHighlighted: Bool {
         didSet {
-            updateColorsForState()
+            updateBackgroundColor()
         }
     }
     
@@ -143,6 +159,7 @@ public class SwitchControl: UIControl {
         setupSubviews()
         setupConstraints()
         setupControl()
+        setupCenterImageViews()
         setupAppearance()
     }
     
@@ -151,6 +168,8 @@ public class SwitchControl: UIControl {
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
+        centerContainerView.addSubview(centerBelowImageView)
+        centerContainerView.addSubview(centerAboveImageView)
         leftContainerView.addSubview(leftLabel)
         rightContainerView.addSubview(rightLabel)
     }
@@ -163,6 +182,8 @@ public class SwitchControl: UIControl {
             centerContainerView,
             leftContainerView,
             rightContainerView,
+            centerBelowImageView,
+            centerAboveImageView,
             leftLabel,
             rightLabel
         ].forEach({
@@ -187,6 +208,8 @@ public class SwitchControl: UIControl {
         
         leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
+        centerBelowImageView.activateConstraintsToCenterInSuperview()
+        centerAboveImageView.activateConstraintsToCenterInSuperview()
         leftLabel.activateConstraintsToCenterInSuperview()
         rightLabel.activateConstraintsToCenterInSuperview()
         
@@ -210,20 +233,27 @@ public class SwitchControl: UIControl {
     func setupControl() {
         self.contentView.isUserInteractionEnabled = false
         
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPressGestureRecognizer.minimumPressDuration = 0
-        self.addGestureRecognizer(longPressGestureRecognizer)
+        self.addTarget(self, action: #selector(handleTouchUpInside(_:)), for: .touchUpInside)
+    }
+    
+    func setupCenterImageViews() {
+        let topRightwardsArrowImage = UIImage(named: "Top Rightwards Arrow")
+        let bottomLeftwardsArrowImage = UIImage(named: "Bottom Leftwards Arrow")
+        self.centerAboveImageView.image = topRightwardsArrowImage
+        self.centerBelowImageView.image = bottomLeftwardsArrowImage
+        self.centerAboveImageView.sizeToFit()
+        self.centerBelowImageView.sizeToFit()
     }
     
     func setupAppearance() {
-        centerContainerView.backgroundColor = .red
-        
         leftLabel.text = "Left"
         rightLabel.text = "Right"
         
         self.clipsToBounds = true
-        updateColorsForState()
-        updateColorsForMode()
+        updateBackgroundColor()
+        updateLabelColors()
+        updateLabelStates()
+        updateArrowColors()
         updateCornerRadius()
     }
     
@@ -245,18 +275,32 @@ public class SwitchControl: UIControl {
         }
     }
     
-    func updateColorsForState() {
-        self.backgroundColor = self.backgroundColors[self.state]
+    func updateBackgroundColor() {
+        self.backgroundColor = backgroundColors[self.state]
     }
     
-    func updateColorsForMode() {
+    func updateLabelColors() {
+        let labels = [leftLabel, rightLabel]
+        labels.forEach({
+            $0.textColor = labelColors[.normal]
+            $0.highlightedTextColor = labelColors[.highlighted]
+        })
+    }
+    
+    func updateArrowColors() {
+        self.centerAboveImageView.tintColor = arrowColors[.highlighted]
+        self.centerBelowImageView.tintColor = arrowColors[.normal]
+    }
+    
+    func updateLabelStates() {
+        // TODO: UILabel에도 highlightedTextColor를 설정할 수 있음.
         switch selectionMode {
         case .left:
-            leftLabel.textColor = titleColors[.selected]
-            rightLabel.textColor = titleColors[.normal]
+            leftLabel.isHighlighted = true
+            rightLabel.isHighlighted = false
         case .right:
-            leftLabel.textColor = titleColors[.normal]
-            rightLabel.textColor = titleColors[.selected]
+            leftLabel.isHighlighted = false
+            rightLabel.isHighlighted = true
         }
     }
     
@@ -267,27 +311,51 @@ public class SwitchControl: UIControl {
     
     // MARK: Action Methods
     
-    @objc func handleLongPress(_ sender: UILongPressGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            self.isHighlighted = true
-        case .ended, .cancelled:
-            self.isHighlighted = false
-            switchSelection()
-        default:
-            ()
-        }
+    @objc func handleTouchUpInside(_ sender: SwitchControl) {
+        switchSelection(animated: true)
     }
     
     
     // MARK: Other Methods
     
-    func switchSelection() {
+    func setSize(to sizeMode: SizeMode, animated: Bool) {
+        let handler = {
+            self.sizeMode = sizeMode
+            self.layoutIfNeeded()
+        }
+        if animated {
+            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: handler)
+        } else {
+            handler()
+        }
+    }
+    
+    func setSelection(to selectionMode: SelectionMode, animated: Bool) {
+        let handler = {
+            self.selectionMode = selectionMode
+            self.layoutIfNeeded()
+        }
+        if animated {
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: handler)
+        } else {
+            handler()
+        }
+    }
+    
+    func switchSelection(animated: Bool) {
         switch self.selectionMode {
         case .left:
-            self.selectionMode = .right
+            setSelection(to: .right, animated: animated)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.centerContainerView.transform = CGAffineTransform(rotationAngle: 0)
+            })
+            
         case .right:
-            self.selectionMode = .left
+            setSelection(to: .left, animated: animated)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.centerContainerView.transform = CGAffineTransform(rotationAngle: .pi)
+            })
         }
     }
 }
