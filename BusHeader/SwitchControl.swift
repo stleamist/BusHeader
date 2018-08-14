@@ -1,21 +1,29 @@
 import UIKit
 
 extension UIView {
-    @discardableResult func addConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
+    func constraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
         
         guard let parent = self.superview else { return [:] }
         
-        let constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
+        var constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
             .top: self.topAnchor.constraint(equalTo: parent.topAnchor),
             .bottom: self.bottomAnchor.constraint(equalTo: parent.bottomAnchor),
             .leading: self.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
             .trailing: self.trailingAnchor.constraint(equalTo: parent.trailingAnchor)
         ]
+        constraints = constraints.filter({ (key, _) -> Bool in
+            attributes.contains(key)
+        })
+        
+        return constraints
+    }
+    
+    @discardableResult func addConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
+        
+        let constraints = self.constraintsToFitIntoSuperview(attributes: attributes)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        for (attribute, constraint) in constraints {
-            constraint.isActive = attributes.contains(attribute)
-        }
+        constraints.forEach({ $1.isActive = true })
         
         return constraints
     }
@@ -116,6 +124,17 @@ public class SwitchControl: UIControl {
         
         contentView.addConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         
+        // setup dict constraints
+        
+        regularModeConstraints = contentView.constraintsToFitIntoSuperview(attributes: [.leading, .trailing])
+        
+        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: arrowView.leadingAnchor)
+        compactLeftModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        
+        compactRightModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: arrowView.trailingAnchor)
+        
+        //
         updateConstraintsForModeChange()
         // setupConstraintsForRegularMode()
     }
@@ -144,20 +163,14 @@ public class SwitchControl: UIControl {
     }
     
     func activateConstraintsForRegularMode() {
-        regularModeConstraints = contentView.addConstraintsToFitIntoSuperview(attributes: [.leading, .trailing])
+        regularModeConstraints.forEach { $1.isActive = true }
     }
     
     func activateConstraintsForCompactLeftMode() {
-        compactRightModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: arrowView.trailingAnchor)
-        
         compactRightModeConstraints.forEach { $1.isActive = true }
     }
     
     func activateConstraintsForCompactRightMode() {
-        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: arrowView.leadingAnchor)
-        compactLeftModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        
         compactLeftModeConstraints.forEach { $1.isActive = true }
     }
     
