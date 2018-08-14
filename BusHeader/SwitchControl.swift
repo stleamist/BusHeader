@@ -18,7 +18,22 @@ extension UIView {
         return constraints
     }
     
-    @discardableResult func addConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
+    func constraintsToCenterInSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.centerX, .centerY]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
+        
+        guard let parent = self.superview else { return [:] }
+        
+        var constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
+            .centerX: self.centerXAnchor.constraint(equalTo: parent.centerXAnchor),
+            .centerY: self.centerYAnchor.constraint(equalTo: parent.centerYAnchor)
+        ]
+        constraints = constraints.filter({ (key, _) -> Bool in
+            attributes.contains(key)
+        })
+        
+        return constraints
+    }
+    
+    @discardableResult func activateConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
         
         let constraints = self.constraintsToFitIntoSuperview(attributes: attributes)
         
@@ -28,19 +43,12 @@ extension UIView {
         return constraints
     }
     
-    @discardableResult func addConstraintsToCenterInSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.centerX, .centerY]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
+    @discardableResult func activateConstraintsToCenterInSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.centerX, .centerY]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
         
-        guard let parent = self.superview else { return [:] }
-        
-        let constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
-            .centerX: self.centerXAnchor.constraint(equalTo: parent.centerXAnchor),
-            .centerY: self.centerYAnchor.constraint(equalTo: parent.centerYAnchor)
-        ]
+        let constraints = self.constraintsToCenterInSuperview(attributes: attributes)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        for (attribute, constraint) in constraints {
-            constraint.isActive = attributes.contains(attribute)
-        }
+        constraints.forEach({ $1.isActive = true })
         
         return constraints
     }
@@ -103,18 +111,18 @@ public class SwitchControl: UIControl {
     }
     
     func setupConstraints() {
-        arrowView.addConstraintsToCenterInSuperview()
+        arrowView.activateConstraintsToCenterInSuperview()
         arrowView.widthAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         arrowView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         
-        leftLabelContainerView.addConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
+        leftLabelContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
         leftLabelContainerView.trailingAnchor.constraint(equalTo: arrowView.leadingAnchor).isActive = true
         
-        rightLabelContainerView.addConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
+        rightLabelContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
         rightLabelContainerView.leadingAnchor.constraint(equalTo: arrowView.trailingAnchor).isActive = true
         
-        leftLabel.addConstraintsToCenterInSuperview()
-        rightLabel.addConstraintsToCenterInSuperview()
+        leftLabel.activateConstraintsToCenterInSuperview()
+        rightLabel.activateConstraintsToCenterInSuperview()
         
         //
         arrowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -122,7 +130,7 @@ public class SwitchControl: UIControl {
         
         leftLabelContainerView.widthAnchor.constraint(equalTo: rightLabelContainerView.widthAnchor).isActive = true
         
-        contentView.addConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
+        contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         
         // setup dict constraints
         
