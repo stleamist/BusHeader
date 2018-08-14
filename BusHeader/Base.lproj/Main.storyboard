@@ -17,16 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="w2A-Un-dpJ">
-                                <rect key="frame" x="16" y="430.5" width="343" height="29"/>
-                                <segments>
-                                    <segment title="Regular"/>
-                                    <segment title="Compact"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="8f4-RG-ViN"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rcl-6C-Jpu">
                                 <rect key="frame" x="162" y="207.5" width="51" height="30"/>
                                 <state key="normal" title="Update"/>
@@ -34,6 +24,12 @@
                                     <action selector="updateDidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8kR-x2-1bo"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bxc-EV-r9i">
+                                <rect key="frame" x="166.5" y="100.5" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lE0-XA-z8T">
                                 <rect key="frame" x="0.0" y="295.5" width="375" height="76"/>
                                 <subviews>
@@ -52,12 +48,24 @@
                                     <constraint firstAttribute="bottom" secondItem="Hun-1d-LWV" secondAttribute="bottom" constant="16" id="xz8-uj-DOp"/>
                                 </constraints>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="w2A-Un-dpJ">
+                                <rect key="frame" x="16" y="430.5" width="343" height="29"/>
+                                <segments>
+                                    <segment title="Regular"/>
+                                    <segment title="Compact"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="8f4-RG-ViN"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="w2A-Un-dpJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="6gH-vf-KCx"/>
                             <constraint firstItem="w2A-Un-dpJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="4/3" id="DdW-EO-QsK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="w2A-Un-dpJ" secondAttribute="trailing" constant="16" id="FVq-yh-bfy"/>
+                            <constraint firstItem="Bxc-EV-r9i" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="1/3" id="SUQ-hv-sYi"/>
+                            <constraint firstItem="Bxc-EV-r9i" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VSW-cX-SxB"/>
                             <constraint firstItem="Rcl-6C-Jpu" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="2/3" id="Wpf-cU-Hnd"/>
                             <constraint firstItem="Rcl-6C-Jpu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XuW-Km-Y9y"/>
                             <constraint firstItem="lE0-XA-z8T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pfe-3u-NJc"/>
@@ -68,6 +76,7 @@
                     </view>
                     <connections>
                         <outlet property="control" destination="Hun-1d-LWV" id="4ct-DE-xw0"/>
+                        <outlet property="label" destination="Bxc-EV-r9i" id="iJh-3a-zso"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

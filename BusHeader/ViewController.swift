@@ -1,7 +1,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var control: SwitchControl!
+    
     @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -20,16 +22,13 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func updateDidTap(_ sender: UIButton) {
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
-            self.control.leftLabel.isHighlighted = true
-        })
+        control.leftLabel = Label()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-    
-
 }
 
+class Label: UILabel {}

@@ -84,16 +84,17 @@ extension UIControl.State: Hashable {
     
     public var sizeMode: SizeMode = .regular {
         didSet {
-            updateConstraintsForMode()
+            updateConstraintsForMode(animated: isAnimationEnabled)
         }
     }
-    public var selectionMode: SelectionMode = .left {
+    public var selectionMode: SelectionMode = .right {
         didSet {
             if (oldValue != selectionMode) {
                 sendActions(for: .valueChanged)
             }
-            updateConstraintsForMode()
-            updateLabelStates()
+            updateConstraintsForMode(animated: isAnimationEnabled)
+            updateLabelStates(animated: isAnimationEnabled)
+            updateArrowRotation(animated: isAnimationEnabled)
         }
     }
     
@@ -105,7 +106,7 @@ extension UIControl.State: Hashable {
         .highlighted: UIColor(white: 0, alpha: 0.2)
         ] {
         didSet {
-            updateBackgroundColor()
+            updateBackgroundColor(animated: false)
         }
     }
     var labelColors: [UIControl.State: UIColor] = [
@@ -113,7 +114,7 @@ extension UIControl.State: Hashable {
         .highlighted: .white
         ] {
         didSet {
-            updateLabelColors()
+            setLabelColors()
         }
     }
     var arrowColors: [UIControl.State: UIColor] = [
@@ -121,24 +122,26 @@ extension UIControl.State: Hashable {
         .highlighted: .white
         ] {
         didSet {
-            updateArrowColors()
+            setArrowColors()
         }
     }
     
     @IBInspectable var cornerRadius: CGFloat = 12 {
         didSet {
-            updateCornerRadius()
+            setCornerRadius()
         }
     }
     
     
-    // MARK: Computed Properties
+    // MARK: Bool Properties
     
     public override var isHighlighted: Bool {
         didSet {
-            updateBackgroundColor()
+            updateBackgroundColor(animated: isAnimationEnabled)
         }
     }
+    
+    var isAnimationEnabled: Bool = true
     
     
     // MARK: Initialization
@@ -227,7 +230,7 @@ extension UIControl.State: Hashable {
         
         // Update Constraints for Mode
         
-        updateConstraintsForMode()
+        updateConstraintsForMode(animated: false)
     }
     
     func setupControl() {
@@ -250,36 +253,86 @@ extension UIControl.State: Hashable {
         rightLabel.text = "Right"
         
         self.clipsToBounds = true
-        updateBackgroundColor()
-        updateLabelColors()
-        updateLabelStates()
-        updateArrowColors()
-        updateCornerRadius()
+        updateBackgroundColor(animated: false)
+        updateLabelStates(animated: false)
+        updateArrowRotation(animated: false)
+        setLabelColors()
+        setArrowColors()
+        setCornerRadius()
     }
     
     
     // MARK: Update Methods
     
-    func updateConstraintsForMode() {
-        regularModeConstraints.forEach({ $1.isActive = false })
-        compactLeftModeConstraints.forEach({ $1.isActive = false })
-        compactRightModeConstraints.forEach({ $1.isActive = false })
-        
-        switch sizeMode {
-        case .regular: regularModeConstraints.forEach { $1.isActive = true }
-        case .compact:
-            switch selectionMode {
-            case .left: compactRightModeConstraints.forEach { $1.isActive = true }
-            case .right: compactLeftModeConstraints.forEach { $1.isActive = true }
+    func updateConstraintsForMode(animated: Bool) {
+        let handler = {
+            self.regularModeConstraints.forEach({ $1.isActive = false })
+            self.compactLeftModeConstraints.forEach({ $1.isActive = false })
+            self.compactRightModeConstraints.forEach({ $1.isActive = false })
+            
+            switch self.sizeMode {
+            case .regular: self.regularModeConstraints.forEach { $1.isActive = true }
+            case .compact:
+                switch self.selectionMode {
+                case .left: self.compactRightModeConstraints.forEach { $1.isActive = true }
+                case .right: self.compactLeftModeConstraints.forEach { $1.isActive = true }
+                }
             }
+            
+            self.layoutIfNeeded()
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: handler)
+        } else {
+            handler()
         }
     }
     
-    func updateBackgroundColor() {
-        self.backgroundColor = backgroundColors[self.state]
+    func updateBackgroundColor(animated: Bool) {
+        let handler = {
+            self.backgroundColor = self.backgroundColors[self.state]
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: handler)
+        } else {
+            handler()
+        }
     }
     
-    func updateLabelColors() {
+    func updateLabelStates(animated: Bool) {
+        let leftLabelHandler = {
+            self.leftLabel.isHighlighted = (self.selectionMode == .left) ? true : false
+        }
+        let rightLabelHandler = {
+            self.rightLabel.isHighlighted = (self.selectionMode == .right) ? true : false
+        }
+        
+        if animated {
+            UIView.transition(with: leftLabel, duration: 0.3, options: .transitionCrossDissolve, animations: leftLabelHandler)
+            UIView.transition(with: rightLabel, duration: 0.3, options: .transitionCrossDissolve, animations: rightLabelHandler)
+        } else {
+            leftLabelHandler()
+            rightLabelHandler()
+        }
+    }
+    
+    func updateArrowRotation(animated: Bool) {
+        let rotationAngle: CGFloat = (self.selectionMode == .right) ? 0 : .pi
+        
+        let handler = {
+            self.centerContainerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: handler)
+        } else {
+            handler()
+        }
+    }
+    
+    func setLabelColors() {
         let labels = [leftLabel, rightLabel]
         labels.forEach({
             $0.textColor = labelColors[.normal]
@@ -287,24 +340,12 @@ extension UIControl.State: Hashable {
         })
     }
     
-    func updateArrowColors() {
+    func setArrowColors() {
         self.centerAboveImageView.tintColor = arrowColors[.highlighted]
         self.centerBelowImageView.tintColor = arrowColors[.normal]
     }
     
-    func updateLabelStates() {
-        // TODO: UILabel에도 highlightedTextColor를 설정할 수 있음.
-        switch selectionMode {
-        case .left:
-            leftLabel.isHighlighted = true
-            rightLabel.isHighlighted = false
-        case .right:
-            leftLabel.isHighlighted = false
-            rightLabel.isHighlighted = true
-        }
-    }
-    
-    func updateCornerRadius() {
+    func setCornerRadius() {
         self.layer.cornerRadius = self.cornerRadius
     }
     
@@ -312,50 +353,12 @@ extension UIControl.State: Hashable {
     // MARK: Action Methods
     
     @objc func handleTouchUpInside(_ sender: SwitchControl) {
-        switchSelection(animated: true)
-    }
-    
-    
-    // MARK: Other Methods
-    
-    func setSize(to sizeMode: SizeMode, animated: Bool) {
-        let handler = {
-            self.sizeMode = sizeMode
-            self.layoutIfNeeded()
-        }
-        if animated {
-            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: handler)
-        } else {
-            handler()
-        }
-    }
-    
-    func setSelection(to selectionMode: SelectionMode, animated: Bool) {
-        let handler = {
-            self.selectionMode = selectionMode
-            self.layoutIfNeeded()
-        }
-        if animated {
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: handler)
-        } else {
-            handler()
-        }
-    }
-    
-    func switchSelection(animated: Bool) {
         switch self.selectionMode {
         case .left:
-            setSelection(to: .right, animated: animated)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.centerContainerView.transform = CGAffineTransform(rotationAngle: 0)
-            })
+            self.selectionMode = .right
             
         case .right:
-            setSelection(to: .left, animated: animated)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.centerContainerView.transform = CGAffineTransform(rotationAngle: .pi)
-            })
+            self.selectionMode = .left
         }
     }
 }
