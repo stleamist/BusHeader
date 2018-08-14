@@ -258,11 +258,11 @@ extension UIControl.State: Hashable {
         
         regularModeConstraints = contentView.constraintsToFitIntoSuperview(attributes: [.leading, .trailing])
         
-        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: centerContainerView.leadingAnchor)
-        compactLeftModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        compactLeftModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        compactLeftModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: centerContainerView.trailingAnchor)
         
-        compactRightModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: centerContainerView.trailingAnchor)
+        compactRightModeConstraints[.leading] = self.leadingAnchor.constraint(equalTo: centerContainerView.leadingAnchor)
+        compactRightModeConstraints[.trailing] = self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         
         
         // Update Constraints for Mode
@@ -337,15 +337,15 @@ extension UIControl.State: Hashable {
     func updateConstraintsForMode(animated: Bool) {
         let handler = {
             self.regularModeConstraints.forEach({ $1.isActive = false })
-            self.compactLeftModeConstraints.forEach({ $1.isActive = false })
             self.compactRightModeConstraints.forEach({ $1.isActive = false })
+            self.compactLeftModeConstraints.forEach({ $1.isActive = false })
             
             switch self.sizeMode {
             case .regular: self.regularModeConstraints.forEach { $1.isActive = true }
             case .compact:
                 switch self.selectionMode {
-                case .left: self.compactRightModeConstraints.forEach { $1.isActive = true }
-                case .right: self.compactLeftModeConstraints.forEach { $1.isActive = true }
+                case .left: self.compactLeftModeConstraints.forEach { $1.isActive = true }
+                case .right: self.compactRightModeConstraints.forEach { $1.isActive = true }
                 }
             }
             
