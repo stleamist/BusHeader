@@ -202,7 +202,6 @@ extension UIControl.State: Hashable {
     // MARK: Setup Methods
     
     func setup() {
-        // TODO: 호출 순서에 맞게 정리하기
         setupSubviews()
         setupConstraints()
         setupLabels()
