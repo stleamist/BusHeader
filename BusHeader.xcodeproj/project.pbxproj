@@ -13,6 +13,8 @@
 		C73993EC21225EB900627EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73993EB21225EB900627EC4 /* Assets.xcassets */; };
 		C73993EF21225EB900627EC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */; };
 		C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993F621225EC700627EC4 /* SwitchControl.swift */; };
+		C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */; };
+		C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		C73993EE21225EB900627EC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73993F021225EB900627EC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C73993F621225EC700627EC4 /* SwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchControl.swift; sourceTree = "<group>"; };
+		C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusHeaderView.swift; sourceTree = "<group>"; };
+		C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNumberLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +62,9 @@
 			children = (
 				C73993E421225EB800627EC4 /* AppDelegate.swift */,
 				C73993E621225EB800627EC4 /* ViewController.swift */,
+				C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */,
 				C73993F621225EC700627EC4 /* SwitchControl.swift */,
+				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C73993E821225EB800627EC4 /* Main.storyboard */,
 				C73993EB21225EB900627EC4 /* Assets.xcassets */,
 				C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */,
@@ -138,6 +144,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */,
+				C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */,
 				C73993E721225EB800627EC4 /* ViewController.swift in Sources */,
 				C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */,
 				C73993E521225EB800627EC4 /* AppDelegate.swift in Sources */,

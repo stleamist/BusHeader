@@ -1,7 +1,9 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var busHeaderView: BusHeaderView!
     @IBOutlet weak var control: SwitchControl!
+    @IBOutlet weak var testAnimatingStackView: UIStackView!
     
     @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -12,9 +14,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func updateDidTap(_ sender: UIButton) {
-        let label = Label()
-        label.text = "Hello"
-        control.leftLabel = label
+        UIView.animate(withDuration: 0.3) {
+            self.testAnimatingStackView.axis = .horizontal
+            self.busHeaderView.sizeMode = (self.busHeaderView.sizeMode == .regular) ? .compact: .regular
+            self.busHeaderView.layoutIfNeeded()
+        }
+        
     }
     
     override func viewDidLoad() {
