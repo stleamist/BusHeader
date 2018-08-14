@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         default:
             ()
         }
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 1) {
             self.control.layoutIfNeeded()
         }
     }
