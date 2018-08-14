@@ -22,7 +22,9 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func updateDidTap(_ sender: UIButton) {
-        control.leftLabel = Label()
+        let label = Label()
+        label.text = "Hello"
+        control.leftLabel = label
     }
     
     override func viewDidLoad() {

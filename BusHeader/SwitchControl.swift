@@ -69,8 +69,25 @@ extension UIControl.State: Hashable {
     
     var centerBelowImageView = UIImageView()
     var centerAboveImageView = UIImageView()
-    var leftLabel = UILabel()
-    var rightLabel = UILabel()
+    
+    var labels: [SelectionMode: UILabel] {
+        return [.left: leftLabel, .right: rightLabel]
+    }
+    var leftLabel = UILabel() {
+        didSet {
+            // .removeFromSuperview()를 호출할 때 관련된 constraints도 함께 제거된다.
+            oldValue.removeFromSuperview()
+            setupLabel(leftLabel, into: leftContainerView)
+            setLabelColors()
+        }
+    }
+    var rightLabel = UILabel() {
+        didSet {
+            oldValue.removeFromSuperview()
+            setupLabel(rightLabel, into: rightContainerView)
+            setLabelColors()
+        }
+    }
     
     
     // MARK: Constraints
@@ -161,6 +178,7 @@ extension UIControl.State: Hashable {
     func setup() {
         setupSubviews()
         setupConstraints()
+        setupLabels()
         setupControl()
         setupCenterImageViews()
         setupAppearance()
@@ -173,8 +191,6 @@ extension UIControl.State: Hashable {
         contentView.addSubview(rightContainerView)
         centerContainerView.addSubview(centerBelowImageView)
         centerContainerView.addSubview(centerAboveImageView)
-        leftContainerView.addSubview(leftLabel)
-        rightContainerView.addSubview(rightLabel)
     }
     
     func setupConstraints() {
@@ -186,9 +202,7 @@ extension UIControl.State: Hashable {
             leftContainerView,
             rightContainerView,
             centerBelowImageView,
-            centerAboveImageView,
-            leftLabel,
-            rightLabel
+            centerAboveImageView
         ].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
@@ -213,8 +227,6 @@ extension UIControl.State: Hashable {
         
         centerBelowImageView.activateConstraintsToCenterInSuperview()
         centerAboveImageView.activateConstraintsToCenterInSuperview()
-        leftLabel.activateConstraintsToCenterInSuperview()
-        rightLabel.activateConstraintsToCenterInSuperview()
         
         
         // Make and Store Constraints for Modes
@@ -233,6 +245,17 @@ extension UIControl.State: Hashable {
         updateConstraintsForMode(animated: false)
     }
     
+    func setupLabels() {
+        setupLabel(leftLabel, into: leftContainerView)
+        setupLabel(rightLabel, into: rightContainerView)
+    }
+    
+    func setupLabel(_ label: UILabel, into containerView: UIView) {
+        containerView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.activateConstraintsToCenterInSuperview()
+    }
+    
     func setupControl() {
         self.contentView.isUserInteractionEnabled = false
         
@@ -249,6 +272,8 @@ extension UIControl.State: Hashable {
     }
     
     func setupAppearance() {
+        // TODO: 초기 텍스트 지우기
+        
         leftLabel.text = "Left"
         rightLabel.text = "Right"
         
@@ -333,10 +358,9 @@ extension UIControl.State: Hashable {
     }
     
     func setLabelColors() {
-        let labels = [leftLabel, rightLabel]
-        labels.forEach({
-            $0.textColor = labelColors[.normal]
-            $0.highlightedTextColor = labelColors[.highlighted]
+        self.labels.forEach({
+            $1.textColor = labelColors[.normal]
+            $1.highlightedTextColor = labelColors[.highlighted]
         })
     }
     
