@@ -1,22 +1,52 @@
 import UIKit
 
 @IBDesignable class BusHeaderView: UIView, Compactible {
+    
+    // MARK: - View Properties
+    
+    let primaryView = UIView()
+    // let secondaryView = UIView()
+    let routeNumberLabel = RouteNumberLabel()
+    let switchControl = SwitchControl()
+    
+    
+    // MARK: Constraints
+    
+    var constraintsForMode: [CompactibleSizeMode: Set<NSLayoutConstraint>] = [:]
+    
+    
+    // MARK: Mode Properties
+    
     var sizeMode: CompactibleSizeMode = .regular {
         didSet {
+            // TODO: Switch Control 내의 애니메이션 처리를 Selection Mode 변경에 한해서만 허용할지 결정하기
             updateConstraintsForMode(animated: true)
             switchControl.sizeMode = sizeMode
         }
     }
     
+    
+    // MARK: Appearance Properties
+    
+    var topCornerRadius: CGFloat = 12 {
+        didSet {
+            setCornerRadius()
+        }
+    }
+    
+    
+    // MARK: Bool Properties
+    
     var isAnimationEnabled: Bool = true
-    var topCornerRadius: CGFloat = 12
     
-    let primaryView = UIView()
-    let routeNumberLabel = RouteNumberLabel()
-    let switchControl = SwitchControl()
     
-    var regularModeConstraints: Set<NSLayoutConstraint> = []
-    var compactModeConstraints: Set<NSLayoutConstraint> = []
+    // MARK: Constants
+    
+    let kAnimationOption: UIView.AnimationOptions = .curveEaseInOut
+    let kChangeModeDuration: TimeInterval = 0.3
+    
+    
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +60,6 @@ import UIKit
     func setup() {
         setupSubviews()
         setupConstraints()
-        setupSwitchControl()
         setupAppearance()
     }
     
@@ -57,19 +86,19 @@ import UIKit
         
         routeNumberLabel.activateConstraintsToFitIntoSuperview(attributes: [.leading])
         routeNumberLabel.activateConstraintsToCenterInSuperview(attributes: [.centerY])
-        // 임시 코드, RouteNumberLabel 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
-        routeNumberLabel.widthAnchor.constraint(equalToConstant: 83).isActive = true
-        routeNumberLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        // TODO: 임시 코드, RouteNumberLabel 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
         // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        routeNumberLabel.widthAnchor.constraint(equalToConstant: 83).isActive = true
+        routeNumberLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        regularModeConstraints = [
+        constraintsForMode[.regular] = [
             primaryView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
             switchControl.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             switchControl.topAnchor.constraint(equalTo: primaryView.bottomAnchor, constant: 12)
         ]
         
-        compactModeConstraints = [
+        constraintsForMode[.compact] = [
             primaryView.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
             switchControl.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
             switchControl.leftSquareView.centerXAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor),
@@ -79,27 +108,40 @@ import UIKit
         updateConstraintsForMode(animated: false)
     }
     
-    func updateConstraintsForMode(animated: Bool) {
-        self.regularModeConstraints.forEach({ $0.isActive = false })
-        self.compactModeConstraints.forEach({ $0.isActive = false })
-        
-        switch self.sizeMode {
-        case .regular: self.regularModeConstraints.forEach { $0.isActive = true }
-        case .compact: self.compactModeConstraints.forEach { $0.isActive = true }
-        }
-    }
-    
-    func setupSwitchControl() {
-        switchControl.setLabelTexts(left: "양천공영차고지", right: "경인교육대학교")
-    }
-    
     func setupAppearance() {
+        self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
         primaryView.clipsToBounds = false
-        self.backgroundColor = UIColor(named: "Seoul Green")
+        
+        self.backgroundColor = UIColor(white: 0.25, alpha: 1) // Default Color
         self.routeNumberLabel.textColor = .white
-        self.routeNumberLabel.districtText = "서울"
-        self.routeNumberLabel.numberText = "6515"
-        self.routeNumberLabel.suffixText = "대"
+        
+        setCornerRadius()
+    }
+    
+    
+    // MARK: Property Setting Methods
+    
+    func setCornerRadius() {
+        self.layer.cornerRadius = self.topCornerRadius
+    }
+    
+    
+    // MARK: Update Methods
+    
+    func updateConstraintsForMode(animated: Bool) {
+        let handler = {
+            self.constraintsForMode.forEach({ $1.forEach({ $0.isActive = false }) })
+            self.constraintsForMode[self.sizeMode]?.forEach({ $0.isActive = true })
+            
+            self.layoutIfNeeded()
+        }
+        
+        if animated {
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
+        } else {
+            handler()
+        }
     }
 }
 

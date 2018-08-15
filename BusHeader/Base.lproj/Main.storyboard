@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,11 +38,10 @@
                                     <constraint firstAttribute="bottom" secondItem="Hun-1d-LWV" secondAttribute="bottom" constant="16" id="xz8-uj-DOp"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-eM-hYS" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="311.5" width="375" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="136" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-eM-hYS" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
+                                <color key="backgroundColor" name="Seoul Green"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" placeholder="YES" id="9X8-fM-yH9"/>
                                     <constraint firstAttribute="height" constant="136" id="arH-2i-8yk"/>
                                 </constraints>
                                 <variation key="default">
@@ -73,30 +75,6 @@
                                     <constraint firstItem="Rcl-6C-Jpu" firstAttribute="width" secondItem="w2A-Un-dpJ" secondAttribute="width" multiplier="1/2" id="jdv-js-B2U"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="0HF-RD-E9t">
-                                <rect key="frame" x="137.5" y="20" width="100" height="100"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmu-71-IAh">
-                                        <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                                        <color key="backgroundColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="Zbx-e3-Z68"/>
-                                            <constraint firstAttribute="width" constant="44" id="aQS-Qu-BdJ"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jnz-l7-D9m">
-                                        <rect key="frame" x="0.0" y="56" width="44" height="44"/>
-                                        <color key="backgroundColor" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="HHS-VV-hfc"/>
-                                            <constraint firstAttribute="height" constant="44" id="xyT-Wi-rUu"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="W0A-Uf-0jN"/>
-                                </constraints>
-                            </stackView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8t5-rt-qQ6">
                                 <rect key="frame" x="163" y="152" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -108,24 +86,26 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fbN-eM-hYS" secondAttribute="trailing" id="QFT-oT-a15"/>
                             <constraint firstItem="k5t-qi-clT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Z3d-FB-gnE"/>
                             <constraint firstItem="k5t-qi-clT" firstAttribute="top" secondItem="lE0-XA-z8T" secondAttribute="bottom" constant="16" id="bM0-T8-5iW"/>
-                            <constraint firstItem="0HF-RD-E9t" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="k5C-FD-qi9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k5t-qi-clT" secondAttribute="bottom" constant="16" id="kaA-h4-Mi8"/>
                             <constraint firstItem="lE0-XA-z8T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pfe-3u-NJc"/>
                             <constraint firstItem="fbN-eM-hYS" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="qWo-3j-eY7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lE0-XA-z8T" secondAttribute="trailing" id="sVr-AY-37N"/>
                             <constraint firstItem="fbN-eM-hYS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tf3-k4-jFc"/>
-                            <constraint firstItem="0HF-RD-E9t" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uMS-lv-0hj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="busHeaderView" destination="fbN-eM-hYS" id="v19-qZ-n71"/>
                         <outlet property="control" destination="Hun-1d-LWV" id="4ct-DE-xw0"/>
-                        <outlet property="testAnimatingStackView" destination="0HF-RD-E9t" id="oCS-bm-gX2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <namedColor name="Seoul Green">
+            <color red="0.16078431372549021" green="0.80000000000000004" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

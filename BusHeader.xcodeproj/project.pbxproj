@@ -13,6 +13,7 @@
 		C73993EC21225EB900627EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73993EB21225EB900627EC4 /* Assets.xcassets */; };
 		C73993EF21225EB900627EC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */; };
 		C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993F621225EC700627EC4 /* SwitchControl.swift */; };
+		C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37CC2123D32F00A4CCEB /* Extensions.swift */; };
 		C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */; };
 		C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */; };
 /* End PBXBuildFile section */
@@ -26,6 +27,7 @@
 		C73993EE21225EB900627EC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73993F021225EB900627EC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C73993F621225EC700627EC4 /* SwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchControl.swift; sourceTree = "<group>"; };
+		C77A37CC2123D32F00A4CCEB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusHeaderView.swift; sourceTree = "<group>"; };
 		C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNumberLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +66,7 @@
 				C73993E621225EB800627EC4 /* ViewController.swift */,
 				C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */,
 				C73993F621225EC700627EC4 /* SwitchControl.swift */,
+				C77A37CC2123D32F00A4CCEB /* Extensions.swift */,
 				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C73993E821225EB800627EC4 /* Main.storyboard */,
 				C73993EB21225EB900627EC4 /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */,
+				C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */,
 				C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */,
 				C73993E721225EB800627EC4 /* ViewController.swift in Sources */,
 				C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */,
@@ -297,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6A7LS2BPS4;
 				INFOPLIST_FILE = BusHeader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,6 +320,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6A7LS2BPS4;
 				INFOPLIST_FILE = BusHeader/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

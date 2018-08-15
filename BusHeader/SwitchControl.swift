@@ -1,64 +1,8 @@
 import UIKit
 
-extension UIView {
-    func constraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
-        
-        guard let parent = self.superview else { return [:] }
-        
-        var constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
-            .top: self.topAnchor.constraint(equalTo: parent.topAnchor),
-            .bottom: self.bottomAnchor.constraint(equalTo: parent.bottomAnchor),
-            .leading: self.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-            .trailing: self.trailingAnchor.constraint(equalTo: parent.trailingAnchor)
-        ]
-        constraints = constraints.filter({ (key, _) -> Bool in
-            attributes.contains(key)
-        })
-        
-        return constraints
-    }
-    
-    func constraintsToCenterInSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.centerX, .centerY]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
-        
-        guard let parent = self.superview else { return [:] }
-        
-        var constraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
-            .centerX: self.centerXAnchor.constraint(equalTo: parent.centerXAnchor),
-            .centerY: self.centerYAnchor.constraint(equalTo: parent.centerYAnchor)
-        ]
-        constraints = constraints.filter({ (key, _) -> Bool in
-            attributes.contains(key)
-        })
-        
-        return constraints
-    }
-    
-    @discardableResult func activateConstraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
-        
-        let constraints = self.constraintsToFitIntoSuperview(attributes: attributes)
-        constraints.forEach({ $1.isActive = true })
-        
-        return constraints
-    }
-    
-    @discardableResult func activateConstraintsToCenterInSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.centerX, .centerY]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
-        
-        let constraints = self.constraintsToCenterInSuperview(attributes: attributes)
-        constraints.forEach({ $1.isActive = true })
-        
-        return constraints
-    }
-}
-
-extension UIControl.State: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(rawValue)
-    }
-}
-
 @IBDesignable public class SwitchControl: UIControl, Compactible {
     
-    // MARK: Nested Enums
+    // MARK: - Nested Enums
     
     public enum SelectionMode {
         case left
@@ -66,7 +10,7 @@ extension UIControl.State: Hashable {
     }
     
     
-    // MARK: View Properties
+    // MARK: - View Properties
     
     var contentView = UIView()
     var leftSquareView = UIView() // View for alignment in BusHeaderView
@@ -106,6 +50,11 @@ extension UIControl.State: Hashable {
     var compactLeftModeConstraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [:]
     var compactRightModeConstraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [:]
     var regularModeConstraints: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [:]
+    
+    
+    // MARK: Feedback Generators
+    
+    var impactFeedbackGenerator: UIImpactFeedbackGenerator?
     
     
     // MARK: Mode Properties
@@ -180,7 +129,7 @@ extension UIControl.State: Hashable {
     var isAnimationEnabled: Bool = true
     
     
-    // MARK: Initialization
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -294,6 +243,7 @@ extension UIControl.State: Hashable {
         self.contentView.isUserInteractionEnabled = false
         self.leftSquareView.isUserInteractionEnabled = false
         
+        self.addTarget(self, action: #selector(handleTouchDown(_:)), for: .touchDown)
         self.addTarget(self, action: #selector(handleTouchUpInside(_:)), for: .touchUpInside)
     }
     
@@ -309,6 +259,7 @@ extension UIControl.State: Hashable {
     
     func setupAppearance() {
         self.clipsToBounds = true
+        
         updateBackgroundColor(animated: false)
         updateLabelStates(animated: false)
         updateArrowRotation(animated: false)
@@ -415,7 +366,15 @@ extension UIControl.State: Hashable {
     
     // MARK: Action Methods
     
+    @objc func handleTouchDown(_ sender: SwitchControl) {
+        self.impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackGenerator?.prepare()
+    }
+    
     @objc func handleTouchUpInside(_ sender: SwitchControl) {
+        self.impactFeedbackGenerator?.impactOccurred()
+        self.impactFeedbackGenerator = nil
+        
         switch self.selectionMode {
         case .left:
             self.selectionMode = .right
