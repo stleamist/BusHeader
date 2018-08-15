@@ -243,10 +243,10 @@ extension UIControl.State: Hashable {
         centerContainerView.widthAnchor.constraint(equalTo: centerContainerView.heightAnchor).isActive = true
         
         leftContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
-        leftContainerView.trailingAnchor.constraint(equalTo: centerContainerView.leadingAnchor).isActive = true
+        leftContainerView.trailingAnchor.constraint(equalTo: normalArrowImageView.leadingAnchor).isActive = true
         
         rightContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
-        rightContainerView.leadingAnchor.constraint(equalTo: centerContainerView.trailingAnchor).isActive = true
+        rightContainerView.leadingAnchor.constraint(equalTo: normalArrowImageView.trailingAnchor).isActive = true
         
         leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
