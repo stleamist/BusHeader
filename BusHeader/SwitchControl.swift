@@ -79,6 +79,7 @@ extension UIControl.State: Hashable {
     var leftContainerView = UIView()
     var rightContainerView = UIView()
     
+    var imagesContainerView = UIView()
     var normalArrowImageView = UIImageView()
     var highlightedArrowImageView = UIImageView()
     
@@ -215,8 +216,9 @@ extension UIControl.State: Hashable {
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
-        centerContainerView.addSubview(normalArrowImageView)
-        centerContainerView.addSubview(highlightedArrowImageView)
+        centerContainerView.addSubview(imagesContainerView)
+        imagesContainerView.addSubview(normalArrowImageView)
+        imagesContainerView.addSubview(highlightedArrowImageView)
     }
     
     func setupConstraints() {
@@ -227,6 +229,7 @@ extension UIControl.State: Hashable {
             centerContainerView,
             leftContainerView,
             rightContainerView,
+            imagesContainerView,
             normalArrowImageView,
             highlightedArrowImageView
         ].forEach({
@@ -243,15 +246,20 @@ extension UIControl.State: Hashable {
         centerContainerView.widthAnchor.constraint(equalTo: centerContainerView.heightAnchor).isActive = true
         
         leftContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
-        leftContainerView.trailingAnchor.constraint(equalTo: normalArrowImageView.leadingAnchor).isActive = true
+        leftContainerView.trailingAnchor.constraint(equalTo: imagesContainerView.leadingAnchor).isActive = true
         
         rightContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
-        rightContainerView.leadingAnchor.constraint(equalTo: normalArrowImageView.trailingAnchor).isActive = true
+        rightContainerView.leadingAnchor.constraint(equalTo: imagesContainerView.trailingAnchor).isActive = true
         
         leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
+        imagesContainerView.activateConstraintsToCenterInSuperview()
+        
         normalArrowImageView.activateConstraintsToCenterInSuperview()
         highlightedArrowImageView.activateConstraintsToCenterInSuperview()
+        
+        normalArrowImageView.activateConstraintsToFitIntoSuperview()
+        highlightedArrowImageView.activateConstraintsToFitIntoSuperview()
         
         
         // Make and Store Constraints for Modes
