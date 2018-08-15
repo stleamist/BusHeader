@@ -113,5 +113,13 @@ import UIKit
             }
         }
     }
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 83, height: 50)
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: 83, height: 50)
+    }
 
 }

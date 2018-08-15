@@ -56,18 +56,13 @@ extension UIControl.State: Hashable {
     }
 }
 
-@IBDesignable public class SwitchControl: UIControl {
+@IBDesignable public class SwitchControl: UIControl, Compactible {
     
     // MARK: Nested Enums
     
     public enum SelectionMode {
         case left
         case right
-    }
-    
-    public enum SizeMode {
-        case compact
-        case regular
     }
     
     
@@ -115,7 +110,7 @@ extension UIControl.State: Hashable {
     
     // MARK: Mode Properties
     
-    public var sizeMode: SizeMode = .regular {
+    public var sizeMode: CompactibleSizeMode = .regular {
         didSet {
             updateConstraintsForMode(animated: isAnimationEnabled)
         }

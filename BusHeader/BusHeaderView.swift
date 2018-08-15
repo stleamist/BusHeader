@@ -1,29 +1,22 @@
 import UIKit
 
-@IBDesignable class BusHeaderView: UIView {
-    enum SizeMode {
-        case regular
-        case compact
+@IBDesignable class BusHeaderView: UIView, Compactible {
+    var sizeMode: CompactibleSizeMode = .regular {
+        didSet {
+            updateConstraintsForMode(animated: true)
+            switchControl.sizeMode = sizeMode
+        }
     }
     
-    let stackView = UIStackView()
-    let titleContainerView = UIView()
+    var isAnimationEnabled: Bool = true
+    var topCornerRadius: CGFloat = 12
+    
+    let primaryView = UIView()
     let routeNumberLabel = RouteNumberLabel()
     let switchControl = SwitchControl()
     
-    var sizeMode: SizeMode = .regular {
-        didSet {
-            switch sizeMode {
-            case .regular:
-                self.stackView.axis = .vertical
-                self.switchControl.sizeMode = .regular
-            case .compact:
-                self.stackView.axis = .horizontal
-                self.switchControl.sizeMode = .compact
-                self.switchControl.leftSquareView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            }
-        }
-    }
+    var regularModeConstraints: Set<NSLayoutConstraint> = []
+    var compactModeConstraints: Set<NSLayoutConstraint> = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,35 +30,63 @@ import UIKit
     func setup() {
         setupSubviews()
         setupConstraints()
-        setupStackView()
         setupSwitchControl()
         setupAppearance()
     }
     
     func setupSubviews() {
-        self.addSubview(stackView)
-        stackView.addArrangedSubview(titleContainerView)
-        stackView.addArrangedSubview(switchControl)
-        titleContainerView.addSubview(routeNumberLabel)
+        self.addSubview(primaryView)
+        self.addSubview(switchControl)
+        primaryView.addSubview(routeNumberLabel)
     }
     
     func setupConstraints() {
-        [stackView, titleContainerView, routeNumberLabel, switchControl].forEach({
+        self.layoutMargins = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        
+        [primaryView, switchControl, routeNumberLabel].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
         
-        stackView.activateConstraintsToFitIntoSuperview()
-        titleContainerView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        primaryView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor).isActive = true
+        primaryView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive = true
+        primaryView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        switchControl.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive = true
+        switchControl.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive = true
         switchControl.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        routeNumberLabel.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
+        
+        routeNumberLabel.activateConstraintsToFitIntoSuperview(attributes: [.leading])
+        routeNumberLabel.activateConstraintsToCenterInSuperview(attributes: [.centerY])
+        // 임시 코드, RouteNumberLabel 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
+        routeNumberLabel.widthAnchor.constraint(equalToConstant: 83).isActive = true
+        routeNumberLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        regularModeConstraints = [
+            primaryView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            switchControl.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
+            switchControl.topAnchor.constraint(equalTo: primaryView.bottomAnchor, constant: 12)
+        ]
+        
+        compactModeConstraints = [
+            primaryView.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
+            switchControl.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
+            switchControl.leftSquareView.centerXAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor),
+            primaryView.trailingAnchor.constraint(equalTo: switchControl.trailingAnchor, constant: 12)
+        ]
+        
+        updateConstraintsForMode(animated: false)
     }
     
-    func setupStackView() {
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.spacing = 12
-        stackView.layoutMargins = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
-        stackView.isLayoutMarginsRelativeArrangement = true
+    func updateConstraintsForMode(animated: Bool) {
+        self.regularModeConstraints.forEach({ $0.isActive = false })
+        self.compactModeConstraints.forEach({ $0.isActive = false })
+        
+        switch self.sizeMode {
+        case .regular: self.regularModeConstraints.forEach { $0.isActive = true }
+        case .compact: self.compactModeConstraints.forEach { $0.isActive = true }
+        }
     }
     
     func setupSwitchControl() {
@@ -73,8 +94,19 @@ import UIKit
     }
     
     func setupAppearance() {
+        primaryView.clipsToBounds = false
         self.backgroundColor = UIColor(named: "Seoul Green")
         self.routeNumberLabel.textColor = .white
+        self.routeNumberLabel.districtText = "서울"
         self.routeNumberLabel.numberText = "6515"
+        self.routeNumberLabel.suffixText = "대"
     }
+}
+
+public protocol Compactible {
+    var sizeMode: CompactibleSizeMode { get set }
+}
+public enum CompactibleSizeMode {
+    case regular
+    case compact
 }
