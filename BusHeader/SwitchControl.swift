@@ -74,6 +74,7 @@ extension UIControl.State: Hashable {
     // MARK: View Properties
     
     var contentView = UIView()
+    var leftSquareView = UIView() // View for alignment in BusHeaderView
     
     var centerContainerView = UIView()
     var leftContainerView = UIView()
@@ -213,6 +214,7 @@ extension UIControl.State: Hashable {
     
     func setupSubviews() {
         self.addSubview(contentView)
+        self.addSubview(leftSquareView)
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
@@ -226,6 +228,7 @@ extension UIControl.State: Hashable {
         
         [
             contentView,
+            leftSquareView,
             centerContainerView,
             leftContainerView,
             rightContainerView,
@@ -240,6 +243,9 @@ extension UIControl.State: Hashable {
         // Make and Activate Required Constraints
         
         contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
+        
+        leftSquareView.activateConstraintsToFitIntoSuperview(attributes: [.top, .leading, .bottom])
+        leftSquareView.widthAnchor.constraint(equalTo: leftSquareView.heightAnchor).isActive = true
         
         centerContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         centerContainerView.activateConstraintsToCenterInSuperview(attributes: [.centerX])
@@ -291,6 +297,7 @@ extension UIControl.State: Hashable {
     
     func setupControl() {
         self.contentView.isUserInteractionEnabled = false
+        self.leftSquareView.isUserInteractionEnabled = false
         
         self.addTarget(self, action: #selector(handleTouchUpInside(_:)), for: .touchUpInside)
     }
@@ -400,7 +407,7 @@ extension UIControl.State: Hashable {
         let rotationAngle: CGFloat = (self.selectionMode == .right) ? 0 : .pi
         
         let handler = {
-            self.centerContainerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+            self.imagesContainerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
         }
         
         if animated {

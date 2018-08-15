@@ -20,7 +20,7 @@ import UIKit
             case .compact:
                 self.stackView.axis = .horizontal
                 self.switchControl.sizeMode = .compact
-                self.switchControl.widthAnchor.constraint(equalToConstant: 190).isActive = true
+                self.switchControl.leftSquareView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
             }
         }
     }
