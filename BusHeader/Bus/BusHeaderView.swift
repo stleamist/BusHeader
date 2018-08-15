@@ -7,7 +7,7 @@ import UIKit
     let primaryView = UIView()
     // let secondaryView = UIView()
     let routeNumberLabel = RouteNumberLabel()
-    let switchControl = SwitchControl()
+    let switchControl = BusSwitchControl()
     
     
     // MARK: Constraints

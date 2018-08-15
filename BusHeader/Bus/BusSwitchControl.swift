@@ -1,6 +1,6 @@
 import UIKit
 
-@IBDesignable public class SwitchControl: UIControl, Compactible {
+@IBDesignable public class BusSwitchControl: UIControl, Compactible {
     
     // MARK: - Nested Enums
     
@@ -366,12 +366,12 @@ import UIKit
     
     // MARK: Action Methods
     
-    @objc func handleTouchDown(_ sender: SwitchControl) {
+    @objc func handleTouchDown(_ sender: BusSwitchControl) {
         self.impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
         impactFeedbackGenerator?.prepare()
     }
     
-    @objc func handleTouchUpInside(_ sender: SwitchControl) {
+    @objc func handleTouchUpInside(_ sender: BusSwitchControl) {
         self.impactFeedbackGenerator?.impactOccurred()
         self.impactFeedbackGenerator = nil
         

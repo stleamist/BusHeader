@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		C73993E521225EB800627EC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993E421225EB800627EC4 /* AppDelegate.swift */; };
-		C73993E721225EB800627EC4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993E621225EB800627EC4 /* ViewController.swift */; };
+		C73993E721225EB800627EC4 /* BusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993E621225EB800627EC4 /* BusViewController.swift */; };
 		C73993EA21225EB800627EC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73993E821225EB800627EC4 /* Main.storyboard */; };
 		C73993EC21225EB900627EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73993EB21225EB900627EC4 /* Assets.xcassets */; };
 		C73993EF21225EB900627EC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */; };
-		C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993F621225EC700627EC4 /* SwitchControl.swift */; };
+		C73993F721225EC700627EC4 /* StopSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993F621225EC700627EC4 /* StopSwitchControl.swift */; };
 		C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37CC2123D32F00A4CCEB /* Extensions.swift */; };
+		C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D321243BE000A4CCEB /* StopViewController.swift */; };
+		C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */; };
+		C77A37D921243C0300A4CCEB /* StopHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D821243C0300A4CCEB /* StopHeaderView.swift */; };
 		C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */; };
 		C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */; };
 /* End PBXBuildFile section */
@@ -21,13 +24,16 @@
 /* Begin PBXFileReference section */
 		C73993E121225EB800627EC4 /* BusHeader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BusHeader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73993E421225EB800627EC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C73993E621225EB800627EC4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C73993E621225EB800627EC4 /* BusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusViewController.swift; sourceTree = "<group>"; };
 		C73993E921225EB800627EC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C73993EB21225EB900627EC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C73993EE21225EB900627EC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73993F021225EB900627EC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C73993F621225EC700627EC4 /* SwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchControl.swift; sourceTree = "<group>"; };
+		C73993F621225EC700627EC4 /* StopSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSwitchControl.swift; sourceTree = "<group>"; };
 		C77A37CC2123D32F00A4CCEB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C77A37D321243BE000A4CCEB /* StopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopViewController.swift; sourceTree = "<group>"; };
+		C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusSwitchControl.swift; sourceTree = "<group>"; };
+		C77A37D821243C0300A4CCEB /* StopHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopHeaderView.swift; sourceTree = "<group>"; };
 		C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusHeaderView.swift; sourceTree = "<group>"; };
 		C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNumberLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,17 +69,36 @@
 			isa = PBXGroup;
 			children = (
 				C73993E421225EB800627EC4 /* AppDelegate.swift */,
-				C73993E621225EB800627EC4 /* ViewController.swift */,
-				C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */,
-				C73993F621225EC700627EC4 /* SwitchControl.swift */,
+				C77A37D521243BE600A4CCEB /* Stop */,
+				C77A37D221243B9E00A4CCEB /* Bus */,
 				C77A37CC2123D32F00A4CCEB /* Extensions.swift */,
-				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C73993E821225EB800627EC4 /* Main.storyboard */,
+				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C73993EB21225EB900627EC4 /* Assets.xcassets */,
 				C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */,
 				C73993F021225EB900627EC4 /* Info.plist */,
 			);
 			path = BusHeader;
+			sourceTree = "<group>";
+		};
+		C77A37D221243B9E00A4CCEB /* Bus */ = {
+			isa = PBXGroup;
+			children = (
+				C73993E621225EB800627EC4 /* BusViewController.swift */,
+				C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */,
+				C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */,
+			);
+			path = Bus;
+			sourceTree = "<group>";
+		};
+		C77A37D521243BE600A4CCEB /* Stop */ = {
+			isa = PBXGroup;
+			children = (
+				C77A37D321243BE000A4CCEB /* StopViewController.swift */,
+				C77A37D821243C0300A4CCEB /* StopHeaderView.swift */,
+				C73993F621225EC700627EC4 /* StopSwitchControl.swift */,
+			);
+			path = Stop;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,8 +175,11 @@
 				C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */,
 				C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */,
 				C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */,
-				C73993E721225EB800627EC4 /* ViewController.swift in Sources */,
-				C73993F721225EC700627EC4 /* SwitchControl.swift in Sources */,
+				C77A37D921243C0300A4CCEB /* StopHeaderView.swift in Sources */,
+				C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */,
+				C73993E721225EB800627EC4 /* BusViewController.swift in Sources */,
+				C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */,
+				C73993F721225EC700627EC4 /* StopSwitchControl.swift in Sources */,
 				C73993E521225EB800627EC4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
