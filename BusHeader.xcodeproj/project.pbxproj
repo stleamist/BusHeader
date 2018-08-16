@@ -17,6 +17,7 @@
 		C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D321243BE000A4CCEB /* StopViewController.swift */; };
 		C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */; };
 		C77A37D921243C0300A4CCEB /* StopHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D821243C0300A4CCEB /* StopHeaderView.swift */; };
+		C77A37DB21247CC500A4CCEB /* NodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37DA21247CC400A4CCEB /* NodeView.swift */; };
 		C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */; };
 		C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		C77A37D321243BE000A4CCEB /* StopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopViewController.swift; sourceTree = "<group>"; };
 		C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusSwitchControl.swift; sourceTree = "<group>"; };
 		C77A37D821243C0300A4CCEB /* StopHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopHeaderView.swift; sourceTree = "<group>"; };
+		C77A37DA21247CC400A4CCEB /* NodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeView.swift; sourceTree = "<group>"; };
 		C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusHeaderView.swift; sourceTree = "<group>"; };
 		C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNumberLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +73,7 @@
 				C73993E421225EB800627EC4 /* AppDelegate.swift */,
 				C77A37D521243BE600A4CCEB /* Stop */,
 				C77A37D221243B9E00A4CCEB /* Bus */,
+				C77A37DA21247CC400A4CCEB /* NodeView.swift */,
 				C77A37CC2123D32F00A4CCEB /* Extensions.swift */,
 				C73993E821225EB800627EC4 /* Main.storyboard */,
 				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
@@ -176,6 +179,7 @@
 				C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */,
 				C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */,
 				C77A37D921243C0300A4CCEB /* StopHeaderView.swift in Sources */,
+				C77A37DB21247CC500A4CCEB /* NodeView.swift in Sources */,
 				C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */,
 				C73993E721225EB800627EC4 /* BusViewController.swift in Sources */,
 				C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */,

@@ -18,24 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="136" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-eM-hYS" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
-                                <color key="backgroundColor" name="Seoul Green"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="136" id="arH-2i-8yk"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="arH-2i-8yk"/>
-                                    </mask>
-                                </variation>
-                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBF-2s-41e">
                                 <rect key="frame" x="0.0" y="574" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" id="LYg-rP-GBP">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="w2A-Un-dpJ">
-                                            <rect key="frame" x="16" y="7.5" width="230" height="29"/>
+                                            <rect key="frame" x="16" y="7.5" width="256" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Regular"/>
@@ -48,7 +36,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="KQ1-9y-99t">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rcl-6C-Jpu">
-                                            <rect key="frame" x="246" y="7" width="113" height="30"/>
+                                            <rect key="frame" x="308" y="7" width="51" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Update"/>
                                             <connections>
@@ -58,21 +46,25 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lij-en-cH8" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
+                                <color key="backgroundColor" name="Seoul Green"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="VBF-2s-41e" secondAttribute="trailing" id="PTf-Tb-juw"/>
                             <constraint firstItem="VBF-2s-41e" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Q5c-pT-ITJ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fbN-eM-hYS" secondAttribute="trailing" id="QFT-oT-a15"/>
+                            <constraint firstItem="lij-en-cH8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Srh-Eg-sFg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lij-en-cH8" secondAttribute="trailing" id="TRb-lV-nPM"/>
+                            <constraint firstItem="lij-en-cH8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="akb-Id-Q5E"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VBF-2s-41e" secondAttribute="bottom" id="nJL-FO-6Js"/>
-                            <constraint firstItem="fbN-eM-hYS" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="qWo-3j-eY7"/>
-                            <constraint firstItem="fbN-eM-hYS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tf3-k4-jFc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Bus" id="RiB-nP-47p"/>
                     <connections>
-                        <outlet property="busHeaderView" destination="fbN-eM-hYS" id="v19-qZ-n71"/>
+                        <outlet property="busHeaderView" destination="lij-en-cH8" id="nkr-l1-89A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -87,30 +79,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ow8-vd-20w">
-                                <rect key="frame" x="0.0" y="293.5" width="375" height="80"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7I-at-vqw" customClass="StopSwitchControl" customModule="BusHeader" customModuleProvider="target">
-                                        <rect key="frame" x="18" y="18" width="339" height="44"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" name="Stop Background"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottomMargin" secondItem="o7I-at-vqw" secondAttribute="bottom" id="5Jp-oS-501"/>
-                                    <constraint firstAttribute="height" constant="80" id="95x-IT-HeD"/>
-                                    <constraint firstItem="o7I-at-vqw" firstAttribute="top" secondItem="Ow8-vd-20w" secondAttribute="topMargin" id="QUz-dN-zDP"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="o7I-at-vqw" secondAttribute="trailing" id="Z7B-yp-0mj"/>
-                                    <constraint firstItem="o7I-at-vqw" firstAttribute="leading" secondItem="Ow8-vd-20w" secondAttribute="leadingMargin" priority="750" id="pGS-UM-np3"/>
-                                </constraints>
-                                <directionalEdgeInsets key="directionalLayoutMargins" top="18" leading="18" bottom="18" trailing="18"/>
-                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GFd-eu-MgN">
                                 <rect key="frame" x="0.0" y="574" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" id="WXa-7R-9ac">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kuZ-PC-fIC">
-                                            <rect key="frame" x="16" y="7" width="343" height="30"/>
+                                            <rect key="frame" x="16" y="7" width="256" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Regular"/>
@@ -121,23 +95,38 @@
                                             </connections>
                                         </segmentedControl>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="DXZ-fy-GHn"/>
+                                    <barButtonItem style="plain" id="i7x-ba-da4">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ecF-J2-9Ey">
+                                            <rect key="frame" x="308" y="7" width="51" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Update"/>
+                                            <connections>
+                                                <action selector="updateDidTouchUpInside:" destination="KLf-xS-yeT" eventType="touchUpInside" id="UjE-ZK-i6h"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IxE-gF-GlD" customClass="StopHeaderView" customModule="BusHeader" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
+                                <color key="backgroundColor" name="Stop Background"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="IxE-gF-GlD" firstAttribute="leading" secondItem="xNG-2v-TgH" secondAttribute="leading" id="1Xl-g9-GoH"/>
                             <constraint firstItem="xNG-2v-TgH" firstAttribute="bottom" secondItem="GFd-eu-MgN" secondAttribute="bottom" id="8JX-TZ-JdC"/>
-                            <constraint firstItem="xNG-2v-TgH" firstAttribute="trailing" secondItem="Ow8-vd-20w" secondAttribute="trailing" id="AyT-ZP-75P"/>
-                            <constraint firstItem="Ow8-vd-20w" firstAttribute="centerY" secondItem="uVk-0T-zy8" secondAttribute="centerY" id="OiZ-xw-YXt"/>
-                            <constraint firstItem="Ow8-vd-20w" firstAttribute="leading" secondItem="xNG-2v-TgH" secondAttribute="leading" id="TVp-ZI-phg"/>
+                            <constraint firstItem="IxE-gF-GlD" firstAttribute="centerY" secondItem="uVk-0T-zy8" secondAttribute="centerY" id="EzW-bn-o16"/>
                             <constraint firstAttribute="trailing" secondItem="GFd-eu-MgN" secondAttribute="trailing" id="V5z-gX-k7A"/>
+                            <constraint firstItem="IxE-gF-GlD" firstAttribute="trailing" secondItem="xNG-2v-TgH" secondAttribute="trailing" id="bG8-LM-c5o"/>
                             <constraint firstItem="GFd-eu-MgN" firstAttribute="leading" secondItem="uVk-0T-zy8" secondAttribute="leading" id="wok-ND-EJp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xNG-2v-TgH"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Stop" id="foG-CN-CmS"/>
                     <connections>
-                        <outlet property="stopSwitchControl" destination="o7I-at-vqw" id="r4s-iI-er5"/>
+                        <outlet property="stopHeaderView" destination="IxE-gF-GlD" id="sSK-HU-Ha5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DbQ-WU-ihG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -150,6 +139,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="gN9-WI-jnd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YzU-9c-M2m">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

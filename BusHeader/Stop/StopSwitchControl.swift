@@ -1,30 +1,37 @@
 import UIKit
 
+// View Classes for Debug
+
+class ContentView: UIView {}
+class ArrowContainerView: UIView {}
+class LabelsContainerView: UIView {}
+class ArrowView: UIView {}
+
 @IBDesignable public class StopSwitchControl: UIControl, Compactible {
     
     // MARK: - View Properties
     
-    var contentView = UIView()
+    var contentView: UIView = ContentView()
     
-    var arrowContainerView = UIView()
-    var labelsContainerView = UIView()
+    var arrowContainerView: UIView = ArrowContainerView()
+    var labelsContainerView: UIView = LabelsContainerView()
+    var rightSquareView: UIView = UIView()
     
-    var arrowView = UIView()
+    var arrowView = ArrowView()
     var normalArrowImageView = UIImageView()
     var highlightedArrowImageView = UIImageView()
 
     var titleLabel = UILabel() {
         didSet {
-            // .removeFromSuperview()를 호출할 때 관련된 constraints도 함께 제거된다.
             oldValue.removeFromSuperview()
-            setupLeftLabel()
+            setupTitleLabel()
             setLabelColors()
         }
     }
     var detailLabel = UILabel() {
         didSet {
             oldValue.removeFromSuperview()
-            setupRightLabel()
+            setupDetailLabel()
             setLabelColors()
         }
     }
@@ -34,7 +41,7 @@ import UIKit
     
     var regularModeConstraints: Set<NSLayoutConstraint> = []
     var compactModeConstraints: Set<NSLayoutConstraint> = []
-    var rightContainerWidthAnchor: NSLayoutConstraint?
+    var labelsContainerViewWidthConstraint: NSLayoutConstraint?
     
     
     // MARK: Feedback Generators
@@ -46,15 +53,18 @@ import UIKit
     
     public var sizeMode: CompactibleSizeMode = .regular {
         didSet {
-            if (sizeMode == .compact) {
-                rightContainerWidthAnchor = labelsContainerView.widthAnchor.constraint(equalToConstant: labelsContainerView.bounds.width)
-                rightContainerWidthAnchor?.isActive = true
-                self.cornerRadius = 22
-            } else {
-                rightContainerWidthAnchor?.isActive = false
-                self.cornerRadius = 12
-            }
             updateConstraintsForMode(animated: isAnimationEnabled)
+            updateCornerRadius(animated: isAnimationEnabled)
+        }
+    }
+    
+    func lockLabelsContainerViewWidth(lock: Bool) {
+        if lock {
+            labelsContainerViewWidthConstraint = labelsContainerView.widthAnchor.constraint(equalToConstant: labelsContainerView.bounds.width)
+            labelsContainerViewWidthConstraint?.isActive = true
+        } else {
+            labelsContainerViewWidthConstraint?.isActive = false
+            labelsContainerViewWidthConstraint = nil
         }
     }
     
@@ -86,10 +96,13 @@ import UIKit
         }
     }
     
-    var cornerRadius: CGFloat = 12 {
+    var regularModeCornerRadius: CGFloat = 12 {
         didSet {
-            setCornerRadius()
+            updateCornerRadius(animated: false)
         }
+    }
+    var compactModeCornerRadius: CGFloat {
+        return (self.bounds.height / 2)
     }
     
     
@@ -168,12 +181,12 @@ import UIKit
         contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
         
         arrowContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
-        arrowContainerView.widthAnchor.constraint(equalTo: arrowContainerView.heightAnchor).isActive = true
+        //arrowContainerView.widthAnchor.constraint(equalTo: arrowContainerView.heightAnchor).isActive = true
         
         labelsContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
-        let rightContainerViewLeadingConstraint = labelsContainerView.leadingAnchor.constraint(equalTo: arrowContainerView.trailingAnchor)
-        rightContainerViewLeadingConstraint.priority = .defaultHigh
-        rightContainerViewLeadingConstraint.isActive = true
+        let labelsContainerViewLeadingConstraint = labelsContainerView.leadingAnchor.constraint(equalTo: arrowContainerView.trailingAnchor)
+        labelsContainerViewLeadingConstraint.priority = .defaultHigh
+        labelsContainerViewLeadingConstraint.isActive = true
         
         arrowView.activateConstraintsToCenterInSuperview()
         
@@ -187,10 +200,12 @@ import UIKit
         // Make and Store Constraints for Modes
         
         regularModeConstraints = [
-            self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            arrowContainerView.widthAnchor.constraint(equalTo: arrowContainerView.heightAnchor)
         ]
         
         compactModeConstraints = [
+            titleLabel.trailingAnchor.constraint(equalTo: detailLabel.leadingAnchor),
             self.trailingAnchor.constraint(equalTo: arrowContainerView.trailingAnchor)
         ]
         
@@ -201,19 +216,19 @@ import UIKit
     }
     
     func setupLabels() {
-        setupLeftLabel()
-        setupRightLabel()
+        setupTitleLabel()
+        setupDetailLabel()
     }
     
-    func setupLeftLabel() {
+    func setupTitleLabel() {
         labelsContainerView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leadingAnchor.constraint(equalTo: labelsContainerView.leadingAnchor, constant: 13).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: labelsContainerView.leadingAnchor).isActive = true
         // leftLabel.activateConstraintsToFitIntoSuperview(attributes: [.leading])
         titleLabel.activateConstraintsToCenterInSuperview(attributes: [.centerY])
     }
     
-    func setupRightLabel() {
+    func setupDetailLabel() {
         labelsContainerView.addSubview(detailLabel)
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         detailLabel.trailingAnchor.constraint(equalTo: labelsContainerView.trailingAnchor, constant: -13).isActive = true
@@ -237,14 +252,13 @@ import UIKit
     }
     
     func setupAppearance() {
-        // FIXME: 사이즈 변경 테스트용. true로 변경해야 함.
         self.clipsToBounds = true
         
         updateBackgroundColor(animated: false)
+        updateCornerRadius(animated: false)
         updateArrowRotation()
         setLabelColors()
         setArrowColors()
-        setCornerRadius()
     }
     
     
@@ -265,8 +279,19 @@ import UIKit
         self.normalArrowImageView.tintColor = arrowColors[.normal]
     }
     
-    func setCornerRadius() {
-        self.layer.cornerRadius = self.cornerRadius
+    func updateCornerRadius(animated: Bool) {
+        let handler = {
+            switch self.sizeMode {
+            case .regular: self.layer.cornerRadius = self.regularModeCornerRadius
+            case .compact: self.layer.cornerRadius = self.compactModeCornerRadius
+            }
+        }
+        
+        if animated {
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
+        } else {
+            handler()
+        }
     }
     
     
@@ -325,7 +350,5 @@ import UIKit
     @objc func handleTouchUpInside(_ sender: BusSwitchControl) {
         self.impactFeedbackGenerator?.impactOccurred()
         self.impactFeedbackGenerator = nil
-        
-        // sendActions(for: .touchUpInside)
     }
 }
