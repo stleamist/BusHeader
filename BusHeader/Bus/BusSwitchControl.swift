@@ -13,7 +13,6 @@ import UIKit
     // MARK: - View Properties
     
     var contentView = UIView()
-    var leftSquareView = UIView() // View for alignment in BusHeaderView
     
     var centerContainerView = UIView()
     var leftContainerView = UIView()
@@ -152,13 +151,12 @@ import UIKit
         setupConstraints()
         setupLabels()
         setupControl()
-        setupCenterImageViews()
+        setupArrowImageViews()
         setupAppearance()
     }
     
     func setupSubviews() {
         self.addSubview(contentView)
-        self.addSubview(leftSquareView)
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
@@ -172,7 +170,6 @@ import UIKit
         
         [
             contentView,
-            leftSquareView,
             centerContainerView,
             leftContainerView,
             rightContainerView,
@@ -187,9 +184,6 @@ import UIKit
         // Make and Activate Required Constraints
         
         contentView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
-        
-        leftSquareView.activateConstraintsToFitIntoSuperview(attributes: [.top, .leading, .bottom])
-        leftSquareView.widthAnchor.constraint(equalTo: leftSquareView.heightAnchor).isActive = true
         
         centerContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom])
         centerContainerView.activateConstraintsToCenterInSuperview(attributes: [.centerX])
@@ -241,13 +235,12 @@ import UIKit
     
     func setupControl() {
         self.contentView.isUserInteractionEnabled = false
-        self.leftSquareView.isUserInteractionEnabled = false
         
         self.addTarget(self, action: #selector(handleTouchDown(_:)), for: .touchDown)
         self.addTarget(self, action: #selector(handleTouchUpInside(_:)), for: .touchUpInside)
     }
     
-    func setupCenterImageViews() {
+    func setupArrowImageViews() {
         assert(self.selectionMode == .right, "Initial selection mode is not '.right'. Arrow can be shown in the opposite direction.")
         let topRightwardsArrowImage = UIImage(named: "Top Rightwards Arrow")
         let bottomLeftwardsArrowImage = UIImage(named: "Bottom Leftwards Arrow")
@@ -350,10 +343,10 @@ import UIKit
     }
     
     func updateArrowRotation(animated: Bool) {
-        let rotationAngle: CGFloat = (self.selectionMode == .right) ? 0 : .pi
+        let arrowRotationAngle: CGFloat = (self.selectionMode == .right) ? 0 : .pi
         
         let handler = {
-            self.imagesContainerView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+            self.imagesContainerView.transform = CGAffineTransform(rotationAngle: arrowRotationAngle)
         }
         
         if animated {

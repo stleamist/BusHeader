@@ -1,5 +1,11 @@
 import UIKit
 
+extension UIControl.State: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+}
+
 extension UIView {
     func constraintsToFitIntoSuperview(attributes: Set<NSLayoutConstraint.Attribute> = [.top, .bottom, .leading, .trailing]) -> [NSLayoutConstraint.Attribute: NSLayoutConstraint] {
         
@@ -50,9 +56,10 @@ extension UIView {
     }
 }
 
-extension UIControl.State: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(rawValue)
+extension NSLayoutConstraint {
+    func formPriority(_ priority: UILayoutPriority) -> Self {
+        self.priority = priority
+        return self
     }
 }
 
@@ -73,5 +80,77 @@ extension UIColor {
             blue: rgb & 0xFF,
             alpha: alpha
         )
+    }
+}
+
+extension UIView {
+    var topCenterAnchor: NSLayoutYAxisAnchor {
+        return self.squareLayoutGuide(attribute: .top).centerYAnchor
+    }
+    
+    var bottomCenterAnchor: NSLayoutYAxisAnchor {
+        return self.squareLayoutGuide(attribute: .bottom).centerYAnchor
+    }
+    
+    var leadingCenterAnchor: NSLayoutXAxisAnchor {
+        return self.squareLayoutGuide(attribute: .leading).centerXAnchor
+    }
+    
+    var trailingCenterAnchor: NSLayoutXAxisAnchor {
+        return self.squareLayoutGuide(attribute: .trailing).centerXAnchor
+    }
+    
+    private func squareLayoutGuide(attribute: NSLayoutConstraint.Attribute) -> UILayoutGuide {
+        // TODO: last가 가장 최근에 추가한 가이드인지 확인해야 함.
+        let layoutGuide = self.layoutGuides.filter({ $0.identifier == squareLayoutGuideIdentifier(attribute: attribute) }).last
+        
+        // 기존 squareLayoutGuide가 없으면 새로 가이드를 만든다.
+        guard let existingSquareLayoutGuide = layoutGuide else {
+            return newAddedSquareLayoutGuide(attribute: attribute)
+        }
+        
+        return existingSquareLayoutGuide
+    }
+    
+    private func newAddedSquareLayoutGuide(attribute: NSLayoutConstraint.Attribute) -> UILayoutGuide {
+        let layoutGuide = UILayoutGuide()
+        
+        layoutGuide.identifier = squareLayoutGuideIdentifier(attribute: attribute)
+        
+        var constraintsDict: [NSLayoutConstraint.Attribute: NSLayoutConstraint] = [
+            .top: layoutGuide.topAnchor.constraint(equalTo: self.topAnchor),
+            .bottom: layoutGuide.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            .leading: layoutGuide.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            .trailing: layoutGuide.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            .width: layoutGuide.widthAnchor.constraint(equalTo: self.heightAnchor),
+            .height: layoutGuide.heightAnchor.constraint(equalTo: self.widthAnchor)
+        ]
+        
+        switch attribute {
+        case .top:
+            constraintsDict.removeValue(forKey: .bottom)
+            constraintsDict.removeValue(forKey: .width)
+        case .bottom:
+            constraintsDict.removeValue(forKey: .top)
+            constraintsDict.removeValue(forKey: .width)
+        case .leading:
+            constraintsDict.removeValue(forKey: .trailing)
+            constraintsDict.removeValue(forKey: .height)
+        case .trailing:
+            constraintsDict.removeValue(forKey: .leading)
+            constraintsDict.removeValue(forKey: .height)
+        default: ()
+        }
+        
+        let constraintsArray = Array(constraintsDict.values)
+        
+        self.addLayoutGuide(layoutGuide)
+        NSLayoutConstraint.activate(constraintsArray)
+        
+        return layoutGuide
+    }
+    
+    private func squareLayoutGuideIdentifier(attribute: NSLayoutConstraint.Attribute) -> String {
+        return "squareLayoutGuide\(attribute.rawValue)"
     }
 }

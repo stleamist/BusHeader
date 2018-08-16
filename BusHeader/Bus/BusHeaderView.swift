@@ -101,7 +101,7 @@ import UIKit
         constraintsForMode[.compact] = [
             primaryView.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
             switchControl.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
-            switchControl.leftSquareView.centerXAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor),
+            switchControl.leadingCenterAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor),
             primaryView.trailingAnchor.constraint(equalTo: switchControl.trailingAnchor, constant: 12)
         ]
         

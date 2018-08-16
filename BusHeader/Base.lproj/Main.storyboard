@@ -112,21 +112,48 @@
                                 <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
                                 <color key="backgroundColor" name="Stop Background"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OvG-pV-RhD">
+                                <rect key="frame" x="0.0" y="413.5" width="375" height="80"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D25-iu-7Lq" customClass="StopSwitchControl" customModule="BusHeader" customModuleProvider="target">
+                                        <rect key="frame" x="18" y="18" width="339" height="44"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" name="Stop Background"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="D25-iu-7Lq" secondAttribute="trailing" id="FTj-79-Kv0"/>
+                                    <constraint firstItem="D25-iu-7Lq" firstAttribute="top" secondItem="OvG-pV-RhD" secondAttribute="topMargin" id="gHa-NH-BT3"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="D25-iu-7Lq" secondAttribute="bottom" id="i2V-CJ-jj5"/>
+                                    <constraint firstAttribute="height" constant="80" id="pSa-yw-iex"/>
+                                    <constraint firstItem="D25-iu-7Lq" firstAttribute="leading" secondItem="OvG-pV-RhD" secondAttribute="leadingMargin" id="ppS-u6-m4Z"/>
+                                </constraints>
+                                <edgeInsets key="layoutMargins" top="18" left="18" bottom="18" right="18"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IxE-gF-GlD" firstAttribute="leading" secondItem="xNG-2v-TgH" secondAttribute="leading" id="1Xl-g9-GoH"/>
+                            <constraint firstItem="xNG-2v-TgH" firstAttribute="trailing" secondItem="OvG-pV-RhD" secondAttribute="trailing" id="84G-nZ-eGv"/>
                             <constraint firstItem="xNG-2v-TgH" firstAttribute="bottom" secondItem="GFd-eu-MgN" secondAttribute="bottom" id="8JX-TZ-JdC"/>
                             <constraint firstItem="IxE-gF-GlD" firstAttribute="centerY" secondItem="uVk-0T-zy8" secondAttribute="centerY" id="EzW-bn-o16"/>
+                            <constraint firstItem="OvG-pV-RhD" firstAttribute="top" secondItem="IxE-gF-GlD" secondAttribute="bottom" constant="12" id="HLT-i5-0Gs"/>
                             <constraint firstAttribute="trailing" secondItem="GFd-eu-MgN" secondAttribute="trailing" id="V5z-gX-k7A"/>
+                            <constraint firstItem="OvG-pV-RhD" firstAttribute="leading" secondItem="xNG-2v-TgH" secondAttribute="leading" id="YgI-zC-KhH"/>
                             <constraint firstItem="IxE-gF-GlD" firstAttribute="trailing" secondItem="xNG-2v-TgH" secondAttribute="trailing" id="bG8-LM-c5o"/>
                             <constraint firstItem="GFd-eu-MgN" firstAttribute="leading" secondItem="uVk-0T-zy8" secondAttribute="leading" id="wok-ND-EJp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xNG-2v-TgH"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="OvG-pV-RhD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Stop" id="foG-CN-CmS"/>
                     <connections>
                         <outlet property="stopHeaderView" destination="IxE-gF-GlD" id="sSK-HU-Ha5"/>
+                        <outlet property="testSwitchControl" destination="D25-iu-7Lq" id="kfP-tJ-F5f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DbQ-WU-ihG" userLabel="First Responder" sceneMemberID="firstResponder"/>
