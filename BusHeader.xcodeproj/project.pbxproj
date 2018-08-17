@@ -13,6 +13,7 @@
 		C73993EC21225EB900627EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73993EB21225EB900627EC4 /* Assets.xcassets */; };
 		C73993EF21225EB900627EC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */; };
 		C73993F721225EC700627EC4 /* StopSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73993F621225EC700627EC4 /* StopSwitchControl.swift */; };
+		C75F914D2126EAC9009514AB /* Compactible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75F914C2126EAC9009514AB /* Compactible.swift */; };
 		C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37CC2123D32F00A4CCEB /* Extensions.swift */; };
 		C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D321243BE000A4CCEB /* StopViewController.swift */; };
 		C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */; };
@@ -20,6 +21,7 @@
 		C77A37DB21247CC500A4CCEB /* NodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A37DA21247CC400A4CCEB /* NodeView.swift */; };
 		C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */; };
 		C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */; };
+		C7F4DD1C212664DC00A02EC7 /* StopInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4DD1B212664DC00A02EC7 /* StopInfoLabels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,7 @@
 		C73993EE21225EB900627EC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73993F021225EB900627EC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C73993F621225EC700627EC4 /* StopSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSwitchControl.swift; sourceTree = "<group>"; };
+		C75F914C2126EAC9009514AB /* Compactible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compactible.swift; sourceTree = "<group>"; };
 		C77A37CC2123D32F00A4CCEB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C77A37D321243BE000A4CCEB /* StopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopViewController.swift; sourceTree = "<group>"; };
 		C77A37D621243BFB00A4CCEB /* BusSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusSwitchControl.swift; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 		C77A37DA21247CC400A4CCEB /* NodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeView.swift; sourceTree = "<group>"; };
 		C7AA3E5A21232C9F00C55600 /* BusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusHeaderView.swift; sourceTree = "<group>"; };
 		C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNumberLabel.swift; sourceTree = "<group>"; };
+		C7F4DD1B212664DC00A02EC7 /* StopInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopInfoLabels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +77,12 @@
 				C73993E421225EB800627EC4 /* AppDelegate.swift */,
 				C77A37D521243BE600A4CCEB /* Stop */,
 				C77A37D221243B9E00A4CCEB /* Bus */,
+				C75F914C2126EAC9009514AB /* Compactible.swift */,
 				C77A37DA21247CC400A4CCEB /* NodeView.swift */,
+				C7F4DD1B212664DC00A02EC7 /* StopInfoLabels.swift */,
+				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C77A37CC2123D32F00A4CCEB /* Extensions.swift */,
 				C73993E821225EB800627EC4 /* Main.storyboard */,
-				C7AA3E5C21232CC300C55600 /* RouteNumberLabel.swift */,
 				C73993EB21225EB900627EC4 /* Assets.xcassets */,
 				C73993ED21225EB900627EC4 /* LaunchScreen.storyboard */,
 				C73993F021225EB900627EC4 /* Info.plist */,
@@ -178,9 +184,11 @@
 				C7AA3E5D21232CC300C55600 /* RouteNumberLabel.swift in Sources */,
 				C77A37CD2123D32F00A4CCEB /* Extensions.swift in Sources */,
 				C7AA3E5B21232C9F00C55600 /* BusHeaderView.swift in Sources */,
+				C7F4DD1C212664DC00A02EC7 /* StopInfoLabels.swift in Sources */,
 				C77A37D921243C0300A4CCEB /* StopHeaderView.swift in Sources */,
 				C77A37DB21247CC500A4CCEB /* NodeView.swift in Sources */,
 				C77A37D721243BFB00A4CCEB /* BusSwitchControl.swift in Sources */,
+				C75F914D2126EAC9009514AB /* Compactible.swift in Sources */,
 				C73993E721225EB800627EC4 /* BusViewController.swift in Sources */,
 				C77A37D421243BE000A4CCEB /* StopViewController.swift in Sources */,
 				C73993F721225EC700627EC4 /* StopSwitchControl.swift in Sources */,

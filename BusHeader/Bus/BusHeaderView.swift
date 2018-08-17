@@ -80,10 +80,6 @@ import UIKit
         primaryView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive = true
         primaryView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        switchControl.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive = true
-        switchControl.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive = true
-        switchControl.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        
         routeNumberLabel.activateConstraintsToFitIntoSuperview(attributes: [.leading])
         routeNumberLabel.activateConstraintsToCenterInSuperview(attributes: [.centerY])
         // TODO: 임시 코드, RouteNumberLabel 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
@@ -91,6 +87,10 @@ import UIKit
         // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routeNumberLabel.widthAnchor.constraint(equalToConstant: 83).isActive = true
         routeNumberLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        switchControl.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive = true
+        switchControl.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive = true
+        switchControl.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         constraintsForMode[.regular] = [
             primaryView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
@@ -143,12 +143,4 @@ import UIKit
             handler()
         }
     }
-}
-
-public protocol Compactible {
-    var sizeMode: CompactibleSizeMode { get set }
-}
-public enum CompactibleSizeMode {
-    case regular
-    case compact
 }

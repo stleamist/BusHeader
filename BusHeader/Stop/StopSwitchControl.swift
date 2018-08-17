@@ -90,7 +90,7 @@ import UIKit
             setLabelColors()
         }
     }
-    var detailTextColor: UIColor = UIColor(white: 1, alpha: 0.25) {
+    var detailTextColor: UIColor = UIColor(white: 1, alpha: 0.75) {
         didSet {
             setLabelColors()
         }
@@ -269,6 +269,7 @@ import UIKit
     }
     
     func setupArrowImageViews() {
+        // TODO: 우측통행 방향에 맞게 화살표 이미지 새로 추가하기
         let topRightwardsArrowImage = UIImage(named: "Top Rightwards Arrow")
         let bottomLeftwardsArrowImage = UIImage(named: "Bottom Leftwards Arrow")
         self.highlightedArrowImageView.image = topRightwardsArrowImage

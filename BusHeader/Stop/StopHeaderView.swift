@@ -5,18 +5,12 @@ import UIKit
     // MARK: - View Properties
     
     let primaryView = UIView()
-    // let secondaryView = UIView()
-    
-    let totalLabelsContainerView = UIView()
-    let detailLabelsContainerView = UIView()
-    
-    let stopNameLabel = UILabel()
-    let stopIDLabel = UILabel()
-    let dotLabel = UILabel()
-    let nextStopNameLabel = UILabel()
-    
     let nodeView = NodeView()
+    let stopInfoLabels = StopInfoLabels()
     let stopSwitchControl = StopSwitchControl()
+    
+    
+    // MARK: Layout Guides
     
     let leadingLabelsAlignmentGuide = UILayoutGuide()
     
@@ -30,32 +24,10 @@ import UIKit
     
     var sizeMode: CompactibleSizeMode = .regular {
         didSet {
-            if sizeMode == .compact {
-                // stopSwitchControl.lockLabelsContainerViewWidth(lock: true)
-            }
-            
+            updateVisibilityForMode(animated: true)
             updateConstraintsForMode(animated: true)
             stopSwitchControl.sizeMode = sizeMode
-            
-            if sizeMode == .regular {
-                // stopSwitchControl.lockLabelsContainerViewWidth(lock: false)
-            }
         }
-    }
-    
-    
-    // MARK: Data Properties
-    
-    var stopName: String = ""
-    var stopID: String = ""
-    var nextStopName: String = ""
-    var nodeColors: [UIColor] {
-        get { return nodeView.nodeColors }
-        set { nodeView.nodeColors = newValue }
-    }
-    var arrowAngle: CGFloat {
-        get { return stopSwitchControl.arrowRotationAngle }
-        set { stopSwitchControl.arrowRotationAngle = newValue }
     }
     
     
@@ -101,12 +73,7 @@ import UIKit
         self.addSubview(primaryView)
         self.addSubview(stopSwitchControl)
         primaryView.addSubview(nodeView)
-        primaryView.addSubview(totalLabelsContainerView)
-        totalLabelsContainerView.addSubview(stopNameLabel)
-        totalLabelsContainerView.addSubview(detailLabelsContainerView)
-        detailLabelsContainerView.addSubview(nextStopNameLabel)
-        detailLabelsContainerView.addSubview(dotLabel)
-        detailLabelsContainerView.addSubview(stopIDLabel)
+        primaryView.addSubview(stopInfoLabels)
     }
     
     func setupLayoutGuides() {
@@ -121,7 +88,7 @@ import UIKit
     func setupConstraints() {
         self.layoutMargins = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
         
-        [primaryView, stopSwitchControl, nodeView, totalLabelsContainerView, stopNameLabel, detailLabelsContainerView, nextStopNameLabel, dotLabel, stopIDLabel].forEach({
+        [primaryView, stopSwitchControl, nodeView, stopInfoLabels].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
         
@@ -129,31 +96,22 @@ import UIKit
         primaryView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive = true
         primaryView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        totalLabelsContainerView.leadingAnchor.constraint(equalTo: leadingLabelsAlignmentGuide.leadingAnchor).isActive = true
-        totalLabelsContainerView.centerYAnchor.constraint(equalTo: primaryView.centerYAnchor).isActive = true
-        
-        stopSwitchControl.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive = true
-        stopSwitchControl.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive = true
-        stopSwitchControl.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        
+        // TODO: 임시 코드, NodeView 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
         nodeView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         nodeView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         nodeView.centerYAnchor.constraint(equalTo: primaryView.centerYAnchor).isActive = true
         nodeView.widthAnchor.constraint(equalTo: nodeView.heightAnchor).isActive = true
         
+        stopInfoLabels.leadingAnchor.constraint(equalTo: leadingLabelsAlignmentGuide.leadingAnchor).isActive = true
+        stopInfoLabels.centerYAnchor.constraint(equalTo: primaryView.centerYAnchor).isActive = true
         
-        
-        // TODO: 임시 코드, RouteNumberLabel 내 intrinsicContentSize와 contentHuggingPriority 구현 필요
-        // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        // routeNumberLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        // nodeView.widthAnchor.constraint(equalToConstant: 83).isActive = true
-        // nodeView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        stopNameLabel.leadingAnchor.constraint(equalTo: leadingLabelsAlignmentGuide.leadingAnchor).isActive = true
-        stopNameLabel.activateConstraintsToCenterInSuperview(attributes: [.centerY])
+        stopSwitchControl.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor).isActive = true
+        stopSwitchControl.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor).isActive = true
+        stopSwitchControl.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         constraintsForMode[.regular] = [
             primaryView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            stopInfoLabels.bottomAnchor.constraint(equalTo: stopInfoLabels.textLabelsStackView.bottomAnchor),
             stopSwitchControl.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             stopSwitchControl.topAnchor.constraint(equalTo: primaryView.bottomAnchor, constant: 12),
             stopSwitchControl.labelsLayoutGuide.leadingAnchor.constraint(equalTo: leadingLabelsAlignmentGuide.leadingAnchor)
@@ -163,9 +121,9 @@ import UIKit
             primaryView.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor),
             primaryView.trailingAnchor.constraint(equalTo: stopSwitchControl.trailingAnchor, constant: 12),
             stopSwitchControl.widthAnchor.constraint(equalTo: stopSwitchControl.heightAnchor)
-            //, stopSwitchControl.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor)
         ]
         
+        updateVisibilityForMode(animated: false)
         updateConstraintsForMode(animated: false)
     }
     
@@ -173,8 +131,10 @@ import UIKit
         self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         primaryView.clipsToBounds = false
-        stopNameLabel.textColor = .white
+        nodeView.clipsToBounds = false
+        
         self.backgroundColor = UIColor(white: 0.25, alpha: 1) // Default Color
+        // FIXME: 테스트용 코드
         self.nodeView.nodeColors = [UIColor(rgb: 0x175CE6), UIColor(rgb: 0x29CC5F), UIColor(rgb: 0x29CCCC)]
         
         setCornerRadius()
@@ -202,6 +162,25 @@ import UIKit
             UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
         } else {
             handler()
+        }
+    }
+    
+    func updateVisibilityForMode(animated: Bool) {
+        let animationHandler = {
+            self.stopInfoLabels.detailLabelsStackView.alpha = (self.sizeMode == .regular) ? 0 : 1
+            self.stopSwitchControl.nonLeftContainerView.alpha = (self.sizeMode == .regular) ? 1 : 0
+        }
+        let completionHandler = { (finished: Bool) in
+            self.stopInfoLabels.clipsToBounds = true
+        }
+        
+        self.stopInfoLabels.clipsToBounds = false
+        
+        if animated {
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: animationHandler, completion: completionHandler)
+        } else {
+            animationHandler()
+            completionHandler(true)
         }
     }
 }
