@@ -29,10 +29,9 @@ class StopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        stopHeaderView.stopInfoLabels.stopNameText = "올림픽공원"
-        stopHeaderView.stopInfoLabels.nextStopNameText = "방이역 방면"
-        stopHeaderView.stopInfoLabels.stopIDText = "24-396"
-        stopHeaderView.stopSwitchControl.setLabelTexts(text: "방이역 방면", detailText: "24-396")
+        stopHeaderView.stopNameText = "올림픽공원"
+        stopHeaderView.nextStopNameText = "방이역 방면"
+        stopHeaderView.stopIDText = "24-396"
         stopHeaderView.stopSwitchControl.arrowRotationAngle = (.pi / -8)
     }
 }

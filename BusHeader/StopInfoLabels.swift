@@ -109,7 +109,7 @@ class StopInfoLabels: UIView {
     
     func updateLabelColors() {
         textLabels.forEach({ $0.textColor = textColor })
-        detailTextLabels.forEach({ $0.textColor = textColor })
+        detailTextLabels.forEach({ $0.textColor = detailTextColor })
     }
 }
 

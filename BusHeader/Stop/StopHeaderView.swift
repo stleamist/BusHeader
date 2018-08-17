@@ -31,7 +31,32 @@ import UIKit
     }
     
     
+    // MARK: Data Properties
+    
+    var stopNameText: String = "" {
+        didSet { updateLabelTexts() }
+    }
+    var nextStopNameText: String = "" {
+        didSet { updateLabelTexts() }
+    }
+    let dotText: String = " · "
+    var stopIDText: String = "" {
+        didSet { updateLabelTexts() }
+    }
+    
+    
     // MARK: Appearance Properties
+    
+    var textColor: UIColor = .white {
+        didSet {
+            setLabelColors()
+        }
+    }
+    var detailTextColor: UIColor = UIColor(white: 1, alpha: 0.75) {
+        didSet {
+            setLabelColors()
+        }
+    }
     
     var topCornerRadius: CGFloat = 12 {
         didSet {
@@ -137,11 +162,20 @@ import UIKit
         // FIXME: 테스트용 코드
         self.nodeView.nodeColors = [UIColor(rgb: 0x175CE6), UIColor(rgb: 0x29CC5F), UIColor(rgb: 0x29CCCC)]
         
+        setLabelColors()
         setCornerRadius()
     }
     
     
     // MARK: Property Setting Methods
+    
+    func setLabelColors() {
+        stopInfoLabels.textColor = self.textColor
+        stopSwitchControl.textColor = self.textColor
+        
+        stopInfoLabels.detailTextColor = self.detailTextColor
+        stopSwitchControl.detailTextColor = self.detailTextColor
+    }
     
     func setCornerRadius() {
         self.layer.cornerRadius = self.topCornerRadius
@@ -150,19 +184,14 @@ import UIKit
     
     // MARK: Update Methods
     
-    func updateConstraintsForMode(animated: Bool) {
-        let handler = {
-            self.constraintsForMode.forEach({ $1.forEach({ $0.isActive = false }) })
-            self.constraintsForMode[self.sizeMode]?.forEach({ $0.isActive = true })
-            
-            self.layoutIfNeeded()
-        }
+    func updateLabelTexts() {
+        self.stopInfoLabels.stopNameText = self.stopNameText
         
-        if animated {
-            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
-        } else {
-            handler()
-        }
+        self.stopInfoLabels.nextStopNameText = self.nextStopNameText
+        self.stopSwitchControl.textLabel.text = self.nextStopNameText
+        
+        self.stopInfoLabels.stopIDText = self.stopIDText
+        self.stopSwitchControl.detailTextLabel.text = self.stopIDText
     }
     
     func updateVisibilityForMode(animated: Bool) {
@@ -181,6 +210,21 @@ import UIKit
         } else {
             animationHandler()
             completionHandler(true)
+        }
+    }
+    
+    func updateConstraintsForMode(animated: Bool) {
+        let handler = {
+            self.constraintsForMode.forEach({ $1.forEach({ $0.isActive = false }) })
+            self.constraintsForMode[self.sizeMode]?.forEach({ $0.isActive = true })
+            
+            self.layoutIfNeeded()
+        }
+        
+        if animated {
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
+        } else {
+            handler()
         }
     }
 }
