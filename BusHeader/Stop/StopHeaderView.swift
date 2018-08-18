@@ -9,6 +9,12 @@ import UIKit
     let stopInfoLabels = StopInfoLabels()
     let stopSwitchControl = StopSwitchControl()
     
+    let foregroundLayerView: UIView = {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     
     // MARK: Layout Guides
     
@@ -97,6 +103,7 @@ import UIKit
     func setupSubviews() {
         self.addSubview(primaryView)
         self.addSubview(stopSwitchControl)
+        self.addSubview(foregroundLayerView)
         primaryView.addSubview(nodeView)
         primaryView.addSubview(stopInfoLabels)
     }
@@ -113,9 +120,11 @@ import UIKit
     func setupConstraints() {
         self.layoutMargins = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
         
-        [primaryView, stopSwitchControl, nodeView, stopInfoLabels].forEach({
+        [primaryView, stopSwitchControl, nodeView, stopInfoLabels, foregroundLayerView].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
+        
+        foregroundLayerView.activateConstraintsToFitIntoSuperview()
         
         primaryView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor).isActive = true
         primaryView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor).isActive = true
@@ -214,15 +223,86 @@ import UIKit
     }
     
     func updateConstraintsForMode(animated: Bool) {
+        let prevSizeMode: CompactibleSizeMode = (sizeMode == .compact) ? .regular: .compact
+        
+        let labels: [String: [CompactibleSizeMode: UILabel]] = [
+            "nextStopNameLabel": [
+                .regular: stopSwitchControl.textLabel,
+                .compact: stopInfoLabels.nextStopNameLabel
+            ],
+            "stopIDLabel": [
+                .regular: stopSwitchControl.detailTextLabel,
+                .compact: stopInfoLabels.stopIDLabel
+            ]
+        ]
+        
+        let labelFromPositions = labels.mapValues({ (labelDict) -> CGPoint in
+            guard let prevLabel = labelDict[prevSizeMode] else { return .zero }
+            
+            return prevLabel.convert(prevLabel.bounds.origin, to: self.foregroundLayerView)
+        })
+        
+        let labelLayers = Dictionary(uniqueKeysWithValues: (labels.map({ (labelIdentifier, labelDict) -> (String, CATextLayer) in
+            guard let prevLabel = labelDict[prevSizeMode] else {
+                return (labelIdentifier, CATextLayer())
+            }
+            
+            let textLayer = CATextLayer()
+            textLayer.contentsScale = UIScreen.main.scale
+            
+            textLayer.string = prevLabel.attributedText
+            
+            textLayer.anchorPoint = .zero
+            textLayer.position = labelFromPositions[labelIdentifier] ?? textLayer.position
+            textLayer.frame.size = layer.preferredFrameSize()
+            
+            self.foregroundLayerView.layer.addSublayer(textLayer)
+            
+            return (labelIdentifier, textLayer)
+        })))
+        
+        let positionAnimations = Dictionary(uniqueKeysWithValues: (labelLayers.map({ (labelIdentifier, layer) -> (String, CABasicAnimation) in
+            let animation = CABasicAnimation(keyPath: #keyPath(CATextLayer.position))
+            animation.fromValue = labelFromPositions[labelIdentifier]
+            
+            // TODO: REMOVE TEST CODE
+            animation.duration = 1
+            animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            return (labelIdentifier, animation)
+        })))
+        
+        labels.forEach({ $1.forEach({ $1.alpha = 0 }) })
+        
         let handler = {
             self.constraintsForMode.forEach({ $1.forEach({ $0.isActive = false }) })
             self.constraintsForMode[self.sizeMode]?.forEach({ $0.isActive = true })
             
             self.layoutIfNeeded()
+            
+            // labelToPositions 변수는 self.layoutIfNeeded()를 호출한 다음에 생성해야 한다.
+            let labelToPositions = labels.mapValues({ (labelDict) -> CGPoint in
+                guard let prevLabel = labelDict[self.sizeMode] else { return .zero }
+                
+                return prevLabel.convert(prevLabel.bounds.origin, to: self.foregroundLayerView)
+            })
+            
+            positionAnimations.forEach({ (key, animation) in
+                animation.toValue = labelToPositions[key]
+            })
+            
+            labelLayers.forEach({ (key, layer) in
+                guard let animation = positionAnimations[key] else { return }
+                layer.position = labelToPositions[key] ?? layer.position
+                layer.add(animation, forKey: #keyPath(CATextLayer.position))
+            })
         }
         
         if animated {
-            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler)
+            UIView.animate(withDuration: 1, delay: 0, options: kAnimationOption, animations: handler, completion: { finished in
+                labels.forEach({ $1.forEach({ $1.alpha = 1 }) })
+                self.foregroundLayerView.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
+            })
         } else {
             handler()
         }

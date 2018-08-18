@@ -46,7 +46,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lij-en-cH8" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lij-en-cH8" customClass="BusHeaderView" customModule="BusHeader" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="265.5" width="375" height="136"/>
                                 <color key="backgroundColor" name="Seoul Green"/>
                             </view>
