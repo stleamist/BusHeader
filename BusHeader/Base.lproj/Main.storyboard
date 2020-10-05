@@ -61,7 +61,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VBF-2s-41e" secondAttribute="bottom" id="nJL-FO-6Js"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Bus" id="RiB-nP-47p"/>
+                    <tabBarItem key="tabBarItem" title="Bus" image="rectangle.fill" catalog="system" id="RiB-nP-47p"/>
                     <connections>
                         <outlet property="busHeaderView" destination="lij-en-cH8" id="nkr-l1-89A"/>
                     </connections>
@@ -149,7 +149,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Stop" id="foG-CN-CmS"/>
+                    <tabBarItem key="tabBarItem" title="Stop" image="octagon.fill" catalog="system" id="foG-CN-CmS"/>
                     <connections>
                         <outlet property="stopHeaderView" destination="IxE-gF-GlD" id="sSK-HU-Ha5"/>
                         <outlet property="testSwitchControl" destination="D25-iu-7Lq" id="kfP-tJ-F5f"/>
@@ -180,6 +180,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="octagon.fill" catalog="system" width="128" height="112"/>
+        <image name="rectangle.fill" catalog="system" width="128" height="93"/>
         <namedColor name="Seoul Green">
             <color red="0.16078431372549021" green="0.80000000000000004" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
