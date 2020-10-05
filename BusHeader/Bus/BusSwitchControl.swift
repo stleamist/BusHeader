@@ -5,8 +5,8 @@ import UIKit
     // MARK: - Nested Enums
     
     public enum SelectionMode {
-        case left
-        case right
+        case startStop
+        case turningStop
     }
     
     
@@ -14,30 +14,29 @@ import UIKit
     
     var contentView = UIView()
     
-    var centerContainerView = UIView()
     var leftContainerView = UIView()
     var rightContainerView = UIView()
+    var centerContainerView = UIView()
     
-    var imagesContainerView = UIView()
+    var arrowView = UIView()
     var normalArrowImageView = UIImageView()
     var highlightedArrowImageView = UIImageView()
     
     var labels: [SelectionMode: UILabel] {
-        return [.left: leftLabel, .right: rightLabel]
+        return [.startStop: startStopNameLabel, .turningStop: turningStopNameLabel]
     }
-    var leftLabel = UILabel() {
+    var startStopNameLabel = UILabel() {
         didSet {
-            // .removeFromSuperview()를 호출할 때 관련된 constraints도 함께 제거된다.
             oldValue.removeFromSuperview()
-            setupLabel(leftLabel, into: leftContainerView)
+            setupLabel(startStopNameLabel, into: leftContainerView)
             updateLabelStates(animated: false)
             setLabelColors()
         }
     }
-    var rightLabel = UILabel() {
+    var turningStopNameLabel = UILabel() {
         didSet {
             oldValue.removeFromSuperview()
-            setupLabel(rightLabel, into: rightContainerView)
+            setupLabel(turningStopNameLabel, into: rightContainerView)
             updateLabelStates(animated: false)
             setLabelColors()
         }
@@ -63,7 +62,7 @@ import UIKit
             updateConstraintsForMode(animated: isAnimationEnabled)
         }
     }
-    public var selectionMode: SelectionMode = .right {
+    public var selectionMode: SelectionMode = .turningStop {
         didSet {
             if (oldValue != selectionMode) {
                 sendActions(for: .valueChanged)
@@ -160,9 +159,9 @@ import UIKit
         contentView.addSubview(centerContainerView)
         contentView.addSubview(leftContainerView)
         contentView.addSubview(rightContainerView)
-        centerContainerView.addSubview(imagesContainerView)
-        imagesContainerView.addSubview(normalArrowImageView)
-        imagesContainerView.addSubview(highlightedArrowImageView)
+        centerContainerView.addSubview(arrowView)
+        arrowView.addSubview(normalArrowImageView)
+        arrowView.addSubview(highlightedArrowImageView)
     }
     
     func setupConstraints() {
@@ -173,7 +172,7 @@ import UIKit
             centerContainerView,
             leftContainerView,
             rightContainerView,
-            imagesContainerView,
+            arrowView,
             normalArrowImageView,
             highlightedArrowImageView
         ].forEach({
@@ -190,14 +189,14 @@ import UIKit
         centerContainerView.widthAnchor.constraint(equalTo: centerContainerView.heightAnchor).isActive = true
         
         leftContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .leading])
-        leftContainerView.trailingAnchor.constraint(equalTo: imagesContainerView.leadingAnchor).isActive = true
+        leftContainerView.trailingAnchor.constraint(equalTo: arrowView.leadingAnchor).isActive = true
         
         rightContainerView.activateConstraintsToFitIntoSuperview(attributes: [.top, .bottom, .trailing])
-        rightContainerView.leadingAnchor.constraint(equalTo: imagesContainerView.trailingAnchor).isActive = true
+        rightContainerView.leadingAnchor.constraint(equalTo: arrowView.trailingAnchor).isActive = true
         
         leftContainerView.widthAnchor.constraint(equalTo: rightContainerView.widthAnchor).isActive = true
         
-        imagesContainerView.activateConstraintsToCenterInSuperview()
+        arrowView.activateConstraintsToCenterInSuperview()
         
         normalArrowImageView.activateConstraintsToCenterInSuperview()
         highlightedArrowImageView.activateConstraintsToCenterInSuperview()
@@ -223,8 +222,8 @@ import UIKit
     }
     
     func setupLabels() {
-        setupLabel(leftLabel, into: leftContainerView)
-        setupLabel(rightLabel, into: rightContainerView)
+        setupLabel(startStopNameLabel, into: leftContainerView)
+        setupLabel(turningStopNameLabel, into: rightContainerView)
     }
     
     func setupLabel(_ label: UILabel, into containerView: UIView) {
@@ -241,7 +240,7 @@ import UIKit
     }
     
     func setupArrowImageViews() {
-        assert(self.selectionMode == .right, "Initial selection mode is not '.right'. Arrow can be shown in the opposite direction.")
+        assert(self.selectionMode == .turningStop, "Initial selection mode is not '.right'. Arrow can be shown in the opposite direction.")
         let topRightwardsArrowImage = UIImage(named: "Top Rightwards Arrow")
         let bottomLeftwardsArrowImage = UIImage(named: "Bottom Leftwards Arrow")
         self.highlightedArrowImageView.image = topRightwardsArrowImage
@@ -265,8 +264,8 @@ import UIKit
     // MARK: Property Setting Methods
     
     func setLabelTexts(left leftLabelText: String, right rightLabelText: String) {
-        self.leftLabel.text = leftLabelText
-        self.rightLabel.text = rightLabelText
+        self.startStopNameLabel.text = leftLabelText
+        self.turningStopNameLabel.text = rightLabelText
     }
     
     func setLabelColors() {
@@ -298,8 +297,8 @@ import UIKit
             case .regular: self.regularModeConstraints.forEach { $1.isActive = true }
             case .compact:
                 switch self.selectionMode {
-                case .left: self.compactLeftModeConstraints.forEach { $1.isActive = true }
-                case .right: self.compactRightModeConstraints.forEach { $1.isActive = true }
+                case .startStop: self.compactLeftModeConstraints.forEach { $1.isActive = true }
+                case .turningStop: self.compactRightModeConstraints.forEach { $1.isActive = true }
                 }
             }
             
@@ -327,15 +326,15 @@ import UIKit
     
     func updateLabelStates(animated: Bool) {
         let leftLabelHandler = {
-            self.leftLabel.isHighlighted = (self.selectionMode == .left) ? true : false
+            self.startStopNameLabel.isHighlighted = (self.selectionMode == .startStop) ? true : false
         }
         let rightLabelHandler = {
-            self.rightLabel.isHighlighted = (self.selectionMode == .right) ? true : false
+            self.turningStopNameLabel.isHighlighted = (self.selectionMode == .turningStop) ? true : false
         }
         
         if animated {
-            UIView.transition(with: leftLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: leftLabelHandler)
-            UIView.transition(with: rightLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: rightLabelHandler)
+            UIView.transition(with: startStopNameLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: leftLabelHandler)
+            UIView.transition(with: turningStopNameLabel, duration: kChangeModeDuration, options: .transitionCrossDissolve, animations: rightLabelHandler)
         } else {
             leftLabelHandler()
             rightLabelHandler()
@@ -343,10 +342,10 @@ import UIKit
     }
     
     func updateArrowRotation(animated: Bool) {
-        let arrowRotationAngle: CGFloat = (self.selectionMode == .right) ? 0 : .pi
+        let arrowRotationAngle: CGFloat = (self.selectionMode == .turningStop) ? 0 : .pi
         
         let handler = {
-            self.imagesContainerView.transform = CGAffineTransform(rotationAngle: arrowRotationAngle)
+            self.arrowView.transform = CGAffineTransform(rotationAngle: arrowRotationAngle)
         }
         
         if animated {
@@ -369,11 +368,11 @@ import UIKit
         self.impactFeedbackGenerator = nil
         
         switch self.selectionMode {
-        case .left:
-            self.selectionMode = .right
+        case .startStop:
+            self.selectionMode = .turningStop
             
-        case .right:
-            self.selectionMode = .left
+        case .turningStop:
+            self.selectionMode = .startStop
         }
     }
 }

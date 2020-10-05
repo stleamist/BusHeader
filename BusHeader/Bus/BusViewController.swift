@@ -25,7 +25,7 @@ class BusViewController: UIViewController {
         
         busHeaderView.backgroundColor = UIColor(named: "Seoul Green")
         busHeaderView.routeNumberLabel.numberText = "6515"
-        busHeaderView.switchControl.leftLabel.text = "양천공영차고지"
-        busHeaderView.switchControl.rightLabel.text = "경인교육대학교"
+        busHeaderView.switchControl.startStopNameLabel.text = "양천공영차고지"
+        busHeaderView.switchControl.turningStopNameLabel.text = "경인교육대학교"
     }
 }

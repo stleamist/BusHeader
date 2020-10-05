@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gN9-WI-jnd">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gN9-WI-jnd">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,11 +18,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VBF-2s-41e">
-                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="569" width="375" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" id="LYg-rP-GBP">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="w2A-Un-dpJ">
-                                            <rect key="frame" x="16" y="7.5" width="256" height="29"/>
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="w2A-Un-dpJ">
+                                            <rect key="frame" x="16" y="11" width="256" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Regular"/>
@@ -35,8 +34,8 @@
                                         </segmentedControl>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="KQ1-9y-99t">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rcl-6C-Jpu">
-                                            <rect key="frame" x="308" y="7" width="51" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Rcl-6C-Jpu">
+                                            <rect key="frame" x="308" y="12" width="51" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Update"/>
                                             <connections>
@@ -51,6 +50,7 @@
                                 <color key="backgroundColor" name="Seoul Green"/>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="VBF-2s-41e" secondAttribute="trailing" id="PTf-Tb-juw"/>
@@ -60,7 +60,6 @@
                             <constraint firstItem="lij-en-cH8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="akb-Id-Q5E"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VBF-2s-41e" secondAttribute="bottom" id="nJL-FO-6Js"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Bus" id="RiB-nP-47p"/>
                     <connections>
@@ -80,11 +79,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GFd-eu-MgN">
-                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="569" width="375" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" id="WXa-7R-9ac">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kuZ-PC-fIC">
-                                            <rect key="frame" x="16" y="7" width="256" height="30"/>
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kuZ-PC-fIC">
+                                            <rect key="frame" x="16" y="11" width="256" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Regular"/>
@@ -97,8 +96,8 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="DXZ-fy-GHn"/>
                                     <barButtonItem style="plain" id="i7x-ba-da4">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ecF-J2-9Ey">
-                                            <rect key="frame" x="308" y="7" width="51" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="ecF-J2-9Ey">
+                                            <rect key="frame" x="308" y="12" width="51" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Update"/>
                                             <connections>
@@ -131,6 +130,7 @@
                                 <edgeInsets key="layoutMargins" top="18" left="18" bottom="18" right="18"/>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="xNG-2v-TgH"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IxE-gF-GlD" firstAttribute="leading" secondItem="xNG-2v-TgH" secondAttribute="leading" id="1Xl-g9-GoH"/>
@@ -143,7 +143,6 @@
                             <constraint firstItem="IxE-gF-GlD" firstAttribute="trailing" secondItem="xNG-2v-TgH" secondAttribute="trailing" id="bG8-LM-c5o"/>
                             <constraint firstItem="GFd-eu-MgN" firstAttribute="leading" secondItem="uVk-0T-zy8" secondAttribute="leading" id="wok-ND-EJp"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="xNG-2v-TgH"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="OvG-pV-RhD"/>

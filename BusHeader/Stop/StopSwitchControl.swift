@@ -1,47 +1,29 @@
 import UIKit
 
-// View Classes for Debug
-
 @IBDesignable public class StopSwitchControl: UIControl, Compactible {
-    
-    /*
-     VIEW HIERARCHIES
-     
-     - StopSwitchControl
-        - contentView
-            - leftContainerView
-                - arrowView
-                    - normalArrowImageView
-                    - highlightedArrowImageView
-            - nonLeftContainerView
-                - textLabel
-                - detailTextLabel
-                - (rightSquareLayoutGuide)
-                - (labelsLayoutGuide)
-     */
     
     // MARK: - View Properties
     
-    var contentView: UIView = UIView()
+    var contentView = UIView()
     
-    var leftContainerView: UIView = UIView()
-    var nonLeftContainerView: UIView = UIView()
+    var leftContainerView = UIView()
+    var nonLeftContainerView = UIView()
     
     var arrowView = UIView()
     var normalArrowImageView = UIImageView()
     var highlightedArrowImageView = UIImageView()
 
-    var textLabel = UILabel() {
+    var nextStopNameLabel = UILabel() {
         didSet {
             oldValue.removeFromSuperview()
-            setupTextLabel(withConstraints: true)
+            setupNextStopNameLabel(withConstraints: true)
             setLabelColors()
         }
     }
-    var detailTextLabel = UILabel() {
+    var stopIDLabel = UILabel() {
         didSet {
             oldValue.removeFromSuperview()
-            setupDetailTextLabel(withConstraints: true)
+            setupStopIDLabel(withConstraints: true)
             setLabelColors()
         }
     }
@@ -232,25 +214,25 @@ import UIKit
     }
     
     func setupLabels() {
-        setupTextLabel(withConstraints: false)
-        setupDetailTextLabel(withConstraints: false)
+        setupNextStopNameLabel(withConstraints: false)
+        setupStopIDLabel(withConstraints: false)
         setupInterLabelConstraints()
     }
     
-    func setupTextLabel(withConstraints: Bool) {
-        nonLeftContainerView.addSubview(textLabel)
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.leadingAnchor.constraint(equalTo: labelsLayoutGuide.leadingAnchor).isActive = true
-        textLabel.centerYAnchor.constraint(equalTo: labelsLayoutGuide.centerYAnchor).isActive = true
+    func setupNextStopNameLabel(withConstraints: Bool) {
+        nonLeftContainerView.addSubview(nextStopNameLabel)
+        nextStopNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nextStopNameLabel.leadingAnchor.constraint(equalTo: labelsLayoutGuide.leadingAnchor).isActive = true
+        nextStopNameLabel.centerYAnchor.constraint(equalTo: labelsLayoutGuide.centerYAnchor).isActive = true
         
         if withConstraints { setupInterLabelConstraints() }
     }
     
-    func setupDetailTextLabel(withConstraints: Bool) {
-        nonLeftContainerView.addSubview(detailTextLabel)
-        detailTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailTextLabel.trailingCenterAnchor.constraint(equalTo: nonLeftContainerView.trailingCenterAnchor).isActive = true
-        detailTextLabel.centerYAnchor.constraint(equalTo: nonLeftContainerView.centerYAnchor).isActive = true
+    func setupStopIDLabel(withConstraints: Bool) {
+        nonLeftContainerView.addSubview(stopIDLabel)
+        stopIDLabel.translatesAutoresizingMaskIntoConstraints = false
+        stopIDLabel.trailingCenterAnchor.constraint(equalTo: nonLeftContainerView.trailingCenterAnchor).isActive = true
+        stopIDLabel.centerYAnchor.constraint(equalTo: nonLeftContainerView.centerYAnchor).isActive = true
         
         if withConstraints { setupInterLabelConstraints() }
     }
@@ -258,7 +240,7 @@ import UIKit
     func setupInterLabelConstraints() {
         // .fittingSizeLevel보다 크면 각각의 라벨 너비가 모호하다는 메시지가 뜬다.
         // .regular 모드에서 서로의 최단거리가 0이 되게 하려면 어느 한 쪽의 너비가 정해저야 하기 때문이다.
-        detailTextLabel.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor).formPriority(.fittingSizeLevel).isActive = true
+        stopIDLabel.leadingAnchor.constraint(equalTo: nextStopNameLabel.trailingAnchor).formPriority(.fittingSizeLevel).isActive = true
     }
     
     func setupControl() {
@@ -292,13 +274,13 @@ import UIKit
     // MARK: Property Setting Methods
     
     func setLabelTexts(text: String, detailText: String) {
-        self.textLabel.text = text
-        self.detailTextLabel.text = detailText
+        self.nextStopNameLabel.text = text
+        self.stopIDLabel.text = detailText
     }
     
     func setLabelColors() {
-        self.textLabel.textColor = textColor
-        self.detailTextLabel.textColor = detailTextColor
+        self.nextStopNameLabel.textColor = textColor
+        self.stopIDLabel.textColor = detailTextColor
     }
     
     func setArrowColors() {

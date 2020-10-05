@@ -197,10 +197,10 @@ import UIKit
         self.stopInfoLabels.stopNameText = self.stopNameText
         
         self.stopInfoLabels.nextStopNameText = self.nextStopNameText
-        self.stopSwitchControl.textLabel.text = self.nextStopNameText
+        self.stopSwitchControl.nextStopNameLabel.text = self.nextStopNameText
         
         self.stopInfoLabels.stopIDText = self.stopIDText
-        self.stopSwitchControl.detailTextLabel.text = self.stopIDText
+        self.stopSwitchControl.stopIDLabel.text = self.stopIDText
     }
     
     func updateVisibilityForMode(animated: Bool) {
@@ -227,11 +227,11 @@ import UIKit
         
         let labels: [String: [CompactibleSizeMode: UILabel]] = [
             "nextStopNameLabel": [
-                .regular: stopSwitchControl.textLabel,
+                .regular: stopSwitchControl.nextStopNameLabel,
                 .compact: stopInfoLabels.nextStopNameLabel
             ],
             "stopIDLabel": [
-                .regular: stopSwitchControl.detailTextLabel,
+                .regular: stopSwitchControl.stopIDLabel,
                 .compact: stopInfoLabels.stopIDLabel
             ]
         ]
@@ -266,7 +266,19 @@ import UIKit
             animation.fromValue = labelFromPositions[labelIdentifier]
             
             // TODO: REMOVE TEST CODE
-            animation.duration = 1
+            animation.duration = kChangeModeDuration
+            animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            return (labelIdentifier, animation)
+        })))
+        
+        let foregroundColorAnimations = Dictionary(uniqueKeysWithValues: (labelLayers.map({ (labelIdentifier, layer) -> (String, CABasicAnimation) in
+            let animation = CABasicAnimation(keyPath: #keyPath(CATextLayer.foregroundColor))
+            animation.fromValue = labels[labelIdentifier]?[prevSizeMode]?.textColor
+            animation.toValue = labels[labelIdentifier]?[sizeMode]?.textColor
+            
+            // TODO: REMOVE TEST CODE
+            animation.duration = kChangeModeDuration
             animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             
             return (labelIdentifier, animation)
@@ -292,14 +304,17 @@ import UIKit
             })
             
             labelLayers.forEach({ (key, layer) in
-                guard let animation = positionAnimations[key] else { return }
+                guard let positionAnimation = positionAnimations[key] else { return }
                 layer.position = labelToPositions[key] ?? layer.position
-                layer.add(animation, forKey: #keyPath(CATextLayer.position))
+                layer.add(positionAnimation, forKey: #keyPath(CATextLayer.position))
+                
+                guard let foregroundColorAnimation = foregroundColorAnimations[key] else { return }
+                layer.add(foregroundColorAnimation, forKey: #keyPath(CATextLayer.foregroundColor))
             })
         }
         
         if animated {
-            UIView.animate(withDuration: 1, delay: 0, options: kAnimationOption, animations: handler, completion: { finished in
+            UIView.animate(withDuration: kChangeModeDuration, delay: 0, options: kAnimationOption, animations: handler, completion: { finished in
                 labels.forEach({ $1.forEach({ $1.alpha = 1 }) })
                 self.foregroundLayerView.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
             })
